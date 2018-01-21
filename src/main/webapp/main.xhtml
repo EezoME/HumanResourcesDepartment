@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite">
+<h:head>
+    <title>Головна - Popov inc.</title>
+    <script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<!-- документы(там доки какие-то)
+персонал(то, что я тебе кидал)
+можно добавить камеры( типа установленные камеры на предприятии, ясен пень там ниче не будет, просто скриншот с камеры какой-то вставить(или парочку скринов))
+календарь(тупо календарь рабочих дней, праздников вхерячить:)) )
+это же типа прога для отдела кадров, щас еще может подумаю что добавить
+ну Литература/Учебники может еще быть, типа Литература/Пособия выпущеные этим предприятием
+
+%username% -->
+<h:body>
+    <comp:head/>
+    <p:growl autoUpdate="true"/>
+    <main class="main main-wrapper">
+        <div class="main-content">
+            <div class="features-wrapper">
+                <div class="feature" style="background-color: red; color: white;"><a href="/docs.html">Документи</a>
+                </div>
+                <div class="feature" style="background-color: blue; color: white;"><a href="/personal.html">Персонал</a>
+                </div>
+                <div class="feature" style="background-color: green; color: white;"><a href="/cameras.html">Камери</a>
+                </div>
+                <div class="feature" style="background-color: black; color: white;"><a href="/literature.html">Література</a>
+                </div>
+            </div>
+        </div>
+
+        <aside class="aside-content">
+            /* Calendar widget */
+        </aside>
+    </main>
+    <comp:footer/>
+</h:body>
+</html>
