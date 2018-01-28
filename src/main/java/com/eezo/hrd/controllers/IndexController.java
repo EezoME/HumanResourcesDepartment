@@ -29,7 +29,7 @@ public class IndexController implements Serializable {
     private UserController userController;
     private User current = new User();
     private String redirectBack;
-    private String titleSuffix = "Черноморский судостроительный завод";
+    private String titleSuffix = "Чорноморський суднобудівний завод";
 
     @PostConstruct
     private void setUpDefaultUsers() {

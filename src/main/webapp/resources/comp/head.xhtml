@@ -16,22 +16,9 @@
     <p:growl autoUpdate="true"/>
     <div id="header" class="header">
         <h:form styleClass="header__list">
-            <h:commandLink action="/" styleClass="header__list-item">
-                <h:graphicImage library="images" name="logo.gif" title="#{indexController.titleSuffix}" height="40px"/>
+            <h:commandLink action="/" styleClass="header__list-item header__logo">
+                <h:graphicImage library="images" name="logo.gif" title="#{indexController.titleSuffix}" height="60px"/>
             </h:commandLink>
-            <h:commandLink action="/personal.xhtml" styleClass="header__list-item">
-                <h:outputText value="Персонал"/>
-            </h:commandLink>
-            <c:if test="#{indexController.current.userRole.toString().equals('GUEST')}">
-                <h:commandLink action="/submit-your-application.xhtml" styleClass="header__list-item">
-                    <h:outputText value="Оставить заявку"/>
-                </h:commandLink>
-            </c:if>
-            <c:if test="#{!indexController.current.userRole.toString().equals('GUEST')}">
-                <h:commandLink action="/test-results.xhtml" styleClass="header__list-item">
-                    <h:outputText value="Посмотреть результаты тестов"/>
-                </h:commandLink>
-            </c:if>
         </h:form>
     </div>
 </cc:implementation>

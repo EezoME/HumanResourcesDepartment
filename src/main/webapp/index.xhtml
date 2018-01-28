@@ -9,28 +9,55 @@
     <title>Головна - #{indexController.titleSuffix}</title>
     <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
     <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="header.css"/>
+    <h:outputStylesheet library="css" name="footer.css"/>
+    <h:outputStylesheet library="css" name="index-page.css"/>
 </h:head>
 <h:body>
     <comp:head/>
     <p:growl autoUpdate="true"/>
-    <h:panelGrid class="main main-wrapper">
+    <div class="main main-wrapper">
         <div class="main-content">
-            <div class="features-wrapper">
-                <div class="feature" style="background-color: red; color: white;"><a href="/docs.html">Документи</a>
+            <h:form class="features-wrapper">
+                <div class="feature button-wrapper">
+                    <h:commandLink action="/personal.xhtml" styleClass="feature__item all-center">
+                        <h:outputText value="Персонал"/>
+                    </h:commandLink>
                 </div>
-                <div class="feature" style="background-color: blue; color: white;"><a href="/personal.html">Персонал</a>
+                <div class="feature button-wrapper">
+                    <h:commandLink action="/cameras.xhtml" styleClass="feature__item all-center">
+                        <h:outputText value="Камери"/>
+                    </h:commandLink>
                 </div>
-                <div class="feature" style="background-color: green; color: white;"><a href="/cameras.html">Камери</a>
+                <div class="feature button-wrapper">
+                    <h:commandLink action="/literature.xhtml" styleClass="feature__item all-center">
+                        <h:outputText value="Література"/>
+                    </h:commandLink>
                 </div>
-                <div class="feature" style="background-color: black; color: white;"><a href="/literature.html">Література</a>
+                <div class="feature button-wrapper">
+                    <h:commandLink action="/docs.xhtml" styleClass="feature__item all-center">
+                        <h:outputText value="Документи"/>
+                    </h:commandLink>
                 </div>
-            </div>
+            </h:form>
+            <h:form styleClass="test-form">
+                <div class="button-wrapper">
+                    <h:commandLink action="/test.xhtml">
+                        <h:outputText value="Пройти тест"/>
+                    </h:commandLink>
+                </div>
+            </h:form>
+            <c:if test="#{!indexController.current.userRole.toString().equals('GUEST')}">
+                <h:form styleClass="test-form">
+                    <div class="button-wrapper">
+                        <h:commandLink action="/test-results.xhtml">
+                            <h:outputText value="Подивитися результати тестів"/>
+                        </h:commandLink>
+                    </div>
+                </h:form>
+            </c:if>
         </div>
-
-        <h:panelGrid class="aside-content">
-            /* Calendar widget */
-        </h:panelGrid>
-    </h:panelGrid>
+    </div>
     <comp:footer/>
 </h:body>
 </html>
