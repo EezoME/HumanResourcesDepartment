@@ -4,10 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp">
 <h:head>
-    <title>Ласкаво просимо! - Popov inc.</title>
-    <script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>
+    <title>Ласкаво просимо! - #{indexController.titleSuffix}</title>
+    <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
     <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body>
@@ -24,15 +24,14 @@
                     <h:outputLabel value="Пароль: "/>
                     <p:password id="nonFeedback"/>
                 </h:panelGrid>
-                <p:commandButton value="Увійти" id="login-button" update="growl"
-                                 actionListener=""
-                                 styleClass="ui-priority-primary" ajax="false"/>
+                <p:commandButton value="Увійти" id="login-button" update="growl" styleClass="ui-priority-primary"
+                                 ajax="false"/>
+                <div style="margin-bottom: 15px;">Або
+                    <p:commandLink id="register" styleClass="link" action="/register.html" ajax="false">
+                        <h:outputText value="Зареєструватися"/>
+                    </p:commandLink>
+                </div>
             </h:form>
-            <div style="margin-bottom: 15px;">Або
-                <p:commandLink id="register" styleClass="link" action="/register.html" ajax="false">
-                    <h:outputText value="Зареєструватися"/>
-                </p:commandLink>
-            </div>
         </div>
     </div>
     <comp:footer/>

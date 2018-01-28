@@ -9,8 +9,8 @@
         <module name="Human Resources Department" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Human Resources Department" target="1.7" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="Human Resources Department" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
