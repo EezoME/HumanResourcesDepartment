@@ -6,34 +6,31 @@
       xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp">
 <h:head>
-    <title>Ласкаво просимо! - #{indexController.titleSuffix}</title>
+    <title>Головна - #{indexController.titleSuffix}</title>
     <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
     <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body>
+    <comp:head/>
     <p:growl autoUpdate="true"/>
-    <div class="main">
-        <div class="index-container">
-            <h:outputText style="margin-bottom: 20px;">
-                <p>Ласкаво просимо! Будь-ласка, для продовждення увійдіть у систему.</p>
-            </h:outputText>
-            <h:form>
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel value="Логін: "/>
-                    <p:inputText id="login"/>
-                    <h:outputLabel value="Пароль: "/>
-                    <p:password id="nonFeedback"/>
-                </h:panelGrid>
-                <p:commandButton value="Увійти" id="login-button" update="growl" styleClass="ui-priority-primary"
-                                 ajax="false"/>
-                <div style="margin-bottom: 15px;">Або
-                    <p:commandLink id="register" styleClass="link" action="/register.html" ajax="false">
-                        <h:outputText value="Зареєструватися"/>
-                    </p:commandLink>
+    <h:panelGrid class="main main-wrapper">
+        <div class="main-content">
+            <div class="features-wrapper">
+                <div class="feature" style="background-color: red; color: white;"><a href="/docs.html">Документи</a>
                 </div>
-            </h:form>
+                <div class="feature" style="background-color: blue; color: white;"><a href="/personal.html">Персонал</a>
+                </div>
+                <div class="feature" style="background-color: green; color: white;"><a href="/cameras.html">Камери</a>
+                </div>
+                <div class="feature" style="background-color: black; color: white;"><a href="/literature.html">Література</a>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <h:panelGrid class="aside-content">
+            /* Calendar widget */
+        </h:panelGrid>
+    </h:panelGrid>
     <comp:footer/>
 </h:body>
 </html>

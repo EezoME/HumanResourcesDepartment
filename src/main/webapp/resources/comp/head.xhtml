@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <!-- INTERFACE -->
 <cc:interface>
@@ -13,21 +14,25 @@
 <!-- IMPLEMENTATION -->
 <cc:implementation>
     <p:growl autoUpdate="true"/>
-    <f:facet name="header" class="header">
+    <div id="header" class="header">
         <h:form styleClass="header__list">
             <h:commandLink action="/" styleClass="header__list-item">
-                <h:outputText value="%логотип%" />
+                <h:graphicImage library="images" name="logo.gif" title="#{indexController.titleSuffix}" height="40px"/>
             </h:commandLink>
             <h:commandLink action="/personal.xhtml" styleClass="header__list-item">
-                <h:outputText value="Персонал" />
+                <h:outputText value="Персонал"/>
             </h:commandLink>
-            <h:commandLink action="/submit-your-application.xhtml" styleClass="header__list-item">
-                <h:outputText value="Оставить заявку" />
-            </h:commandLink>
-            <h:commandLink action="/test-results" styleClass="header__list-item">
-                <h:outputText value="Посмотреть результаты тестов" />
-            </h:commandLink>
+            <c:if test="#{indexController.current.userRole.toString().equals('GUEST')}">
+                <h:commandLink action="/submit-your-application.xhtml" styleClass="header__list-item">
+                    <h:outputText value="Оставить заявку"/>
+                </h:commandLink>
+            </c:if>
+            <c:if test="#{!indexController.current.userRole.toString().equals('GUEST')}">
+                <h:commandLink action="/test-results.xhtml" styleClass="header__list-item">
+                    <h:outputText value="Посмотреть результаты тестов"/>
+                </h:commandLink>
+            </c:if>
         </h:form>
-    </f:facet>
+    </div>
 </cc:implementation>
 </html>
