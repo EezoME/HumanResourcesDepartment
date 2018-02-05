@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Головна - #{indexController.titleSuffix}</title>
+    <c:if test="#{!userController.entered}">
+        <meta http-equiv="refresh" content="0; url=login.xhtml"/>
+    </c:if>
+    <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="header.css"/>
+    <h:outputStylesheet library="css" name="footer.css"/>
+    <h:outputStylesheet library="css" name="tests-page.css"/>
+</h:head>
+<h:body>
+    <comp:head/>
+    <p:growl autoUpdate="true"/>
+    <div class="main main-wrapper">
+        <div class="main-content" id="main">
+            <div class="test-head">
+                <h2>ПРОФЕССИОНАЛЬНАЯ КОМПЕТЕНЦИЯ</h2>
+                <div class="test-desc">
+                    Знание стандартов работы веб-дизайнера и их эффективное применение на практике
+                </div>
+                <h3>Описание:</h3>
+                <div class="test-desc">
+                    Теоретические знания стандартов работы веб-дизайнера и эффективные
+                    навыки/опыт их применение на собственной профессиональной практике
+                </div>
+            </div>
+            <div class="test-content" id="test-content">
+                <h:form id="single-test">
+                    <c:set var="renderedTest" value="#{webDesignTestsController.getNextTest()}"/>
+                    <ui:repeat value="#{webDesignTestsController.getSpecifiedTest(renderedTest)}" var="test">
+                        <pre>#{test.title}</pre>
+                        <ui:repeat value="#{test.getMapKeysAsList()}" var="possibleAnswer">
+                            <c:if test="#{test.testType.toString().equals('RADIO')}">
+                                <label><input type="radio" name="group1" value="#{possibleAnswer}">
+                                    #{test.possibleAnswers.get(possibleAnswer)}
+                                </input></label><br/>
+                            </c:if>
+                            <c:if test="#{test.testType.toString().equals('CHECKBOX')}">
+                                <label><input type="checkbox" name="group1" value="#{possibleAnswer}">
+                                    #{test.possibleAnswers.get(possibleAnswer)}
+                                </input></label><br/>
+                            </c:if>
+                        </ui:repeat>
+                        <h:commandButton value="Далее" actionListener="#{webDesignTestsController.nextTest()}"
+                                         update="test-content"/>
+                    </ui:repeat>
+                </h:form>
+            </div>
+        </div>
+    </div>
+    <comp:footer/>
+</h:body>
+</html>

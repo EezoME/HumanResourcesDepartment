@@ -7,6 +7,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp">
 <h:head>
     <title>Ласкаво просимо! - #{indexController.titleSuffix}</title>
+    <c:if test="#{userController.entered}">
+        <meta http-equiv="refresh" content="0; url=index.xhtml"/>
+    </c:if>
     <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
     <h:outputStylesheet library="css" name="style.css"/>
     <h:outputStylesheet library="css" name="header.css"/>
@@ -20,15 +23,18 @@
             <h:outputText style="margin-bottom: 20px;">
                 <p>Ласкаво просимо! Будь-ласка, для продовждення увійдіть у систему.</p>
             </h:outputText>
-            <h:form>
+            <h:form id="user-data">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel value="Логін: "/>
-                    <p:inputText id="login"/>
+                    <p:inputText id="login" value="#{indexController.current.login}"/>
                     <h:outputLabel value="Пароль: "/>
-                    <p:password id="nonFeedback"/>
+                    <p:password id="nonFeedback" value="#{indexController.current.password}"/>
                 </h:panelGrid>
-                <p:commandButton value="Увійти" id="login-button" update="growl" styleClass="ui-priority-primary"
-                                 ajax="false"/>
+                <h:commandLink action="#{indexController.login()}" style="text-decoration: none;">
+                    <div class="eyeButton" style="">
+                        <i class="fa fa-check fa-icon"/>Войти
+                    </div>
+                </h:commandLink>
                 <div style="margin-bottom: 15px;">Або
                     <p:commandLink id="register" styleClass="link" action="/register.html" ajax="false">
                         <h:outputText value="Зареєструватися"/>

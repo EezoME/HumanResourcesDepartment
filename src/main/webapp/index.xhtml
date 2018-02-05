@@ -7,6 +7,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp">
 <h:head>
     <title>Головна - #{indexController.titleSuffix}</title>
+    <c:if test="#{!userController.entered}">
+        <meta http-equiv="refresh" content="0; url=login.xhtml"/>
+    </c:if>
     <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
     <h:outputStylesheet library="css" name="style.css"/>
     <h:outputStylesheet library="css" name="header.css"/>
@@ -42,7 +45,7 @@
             </h:form>
             <h:form styleClass="test-form">
                 <div class="button-wrapper">
-                    <h:commandLink action="/test.xhtml">
+                    <h:commandLink action="/tests.xhtml">
                         <h:outputText value="Пройти тест"/>
                     </h:commandLink>
                 </div>

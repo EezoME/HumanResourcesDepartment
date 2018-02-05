@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Головна - #{indexController.titleSuffix}</title>
+    <c:if test="#{!userController.entered}">
+        <meta http-equiv="refresh" content="0; url=login.xhtml"/>
+    </c:if>
+    <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="header.css"/>
+    <h:outputStylesheet library="css" name="footer.css"/>
+    <h:outputStylesheet library="css" name="tests-page.css"/>
+</h:head>
+<h:body>
+    <comp:head/>
+    <p:growl autoUpdate="true"/>
+    <div class="main main-wrapper">
+        <div class="main-content" id="main">
+            <h:form id="test-submit-form">
+                <h:inputHidden value="#{indexController.current.id}" id="user-id"/>
+
+                <p:outputLabel value="*Ваше имя" for="name"/>
+                <h:inputText id="name" rendered="true" value="#{indexController.current.login}"/>
+
+                <h:outputLabel value="*Как долго вы работаете в данной организации?" for="how-long-working"/>
+                <h:selectOneMenu id="how-long-working" rendered="true" value="#{indexController.current.howLongWorking}" required="true">
+                    <f:selectItem itemLabel="Меньше полугода" itemValue="less-than-half-year"/>
+                    <f:selectItem itemLabel="До года" itemValue="less-than-one-year"/>
+                    <f:selectItem itemLabel="1 год" itemValue="one-year"/>
+                    <f:selectItem itemLabel="2 года" itemValue="two-years"/>
+                    <f:selectItem itemLabel="3 года" itemValue="three-years"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel for="department-name" value="Наименование отдела, где работает опрашиваемый:"/>
+                <h:inputText id="department-name" value="#{indexController.current.departmentName}"/>
+
+                <h:outputLabel value="*Пол" for="gender"/>
+                <h:selectOneMenu id="gender" rendered="true" value="#{indexController.current.gender}" required="true">
+                    <f:selectItem itemLabel="Мужской" itemValue="man"/>
+                    <f:selectItem itemLabel="Женский" itemValue="woman"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="*Возраст (лет)" for="age"/>
+                <h:selectOneMenu id="age" rendered="true" value="#{indexController.current.age}" required="true">
+                    <c:forEach var="i" begin="18" end="55">
+                        <f:selectItem itemLabel="#{i}" itemValue="#{i}"/>
+                    </c:forEach>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="*Ваше образование" for="education"/>
+                <h:selectOneMenu id="education" rendered="true" value="#{indexController.current.education}"
+                                 required="true">
+                    <f:selectItem itemLabel="Среднее неполное" itemValue="sec-inc"/>
+                    <f:selectItem itemLabel="Среднее" itemValue="sec"/>
+                    <f:selectItem itemLabel="Среднее-техническое" itemValue="sec-tech"/>
+                    <f:selectItem itemLabel="Высшее неполное" itemValue="high-inc"/>
+                    <f:selectItem itemLabel="Высшее" itemValue="high"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="*Выбрать специальность" for="specialization"/>
+                <h:selectOneMenu id="specialization" rendered="true" value="#{indexController.current.specialization}"
+                                 required="true">
+                    <f:selectItem itemLabel="Веб дизайнер" itemValue="web-designer"/>
+                    <f:selectItem itemLabel="Системный администратор" itemValue="sys-admin"/>
+                </h:selectOneMenu>
+
+                <h:commandButton value="Пройти тест" action="#{testController.submitTestForm}" update="main">
+                </h:commandButton>
+            </h:form>
+        </div>
+    </div>
+    <comp:footer/>
+</h:body>
+</html>

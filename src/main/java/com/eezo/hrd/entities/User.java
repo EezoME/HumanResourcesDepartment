@@ -6,6 +6,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Entity(name = "J_User")
@@ -20,6 +22,14 @@ public class User implements Serializable {
     private String password = "";
     private Date lastVisit;
     private UserRole userRole = UserRole.GUEST;
+    private String howLongWorking;
+    private String departmentName;
+    private String gender;
+    private int age;
+    private String education;
+    private String specialization;
+    @Lob
+    private Map<String, Integer> passedTests;
 
 
     public Long getId() {
@@ -62,6 +72,53 @@ public class User implements Serializable {
         this.userRole = userRole;
     }
 
+    public String getHowLongWorking() {
+        return howLongWorking;
+    }
+
+    public void setHowLongWorking(String howLongWorking) {
+        this.howLongWorking = howLongWorking;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
 
     @Override
     public int hashCode() {
@@ -88,5 +145,13 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.eezo.hrd.entities.User[ id=" + id + " ]";
+    }
+
+    public Map<String, Integer> getPassedTests() {
+        return passedTests;
+    }
+
+    public void setPassedTests(Map<String, Integer> passedTests) {
+        this.passedTests = passedTests;
     }
 }
