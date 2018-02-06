@@ -30,15 +30,17 @@
                     <h:outputLabel value="Пароль: "/>
                     <p:password id="nonFeedback" value="#{indexController.current.password}"/>
                 </h:panelGrid>
-                <h:commandLink action="#{indexController.login()}" style="text-decoration: none;">
-                    <div class="eyeButton" style="">
-                        <i class="fa fa-check fa-icon"/>Войти
+                <div class="button-center">
+                    <div class="button-wrapper">
+                        <h:commandLink action="#{indexController.login()}">
+                            <h:outputText value="Войти"/>
+                        </h:commandLink>
                     </div>
-                </h:commandLink>
-                <div style="margin-bottom: 15px;">Або
-                    <p:commandLink id="register" styleClass="link" action="/register.html" ajax="false">
-                        <h:outputText value="Зареєструватися"/>
-                    </p:commandLink>
+                    <div class="button-wrapper">
+                        <h:commandLink id="register" action="/register.html">
+                            <h:outputText value="Зареєструватися"/>
+                        </h:commandLink>
+                    </div>
                 </div>
             </h:form>
         </div>

@@ -12,8 +12,10 @@ body {
     display: flex;
     flex-direction: column;
     margin: 0;
-    padding-top: 50px;
+    padding-top: 65px;
+    padding-right: 20px;
     padding-bottom: 30px;
+    padding-left: 20px;
 }
 
 .all-center {
@@ -35,14 +37,20 @@ main {
 
 label {
     display: block;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+}
+
+label > input, label > select {
+    margin-left: 10px;
 }
 
 .button-wrapper {
-    padding: 10px 20px;
+    max-width: 150px;
+    padding: 7px 20px;
     border: 2px solid #000;
     background-color: #fff;
     font-size: 20px;
+    text-align: center;
     transition-duration: 0.3s;
 }
 
@@ -54,5 +62,6 @@ label {
 .hr {
     width: 100%;
     height: 1px;
+    margin-bottom: 10px;
     background-color: black;
 }

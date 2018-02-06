@@ -39,7 +39,7 @@
                     <c:set var="renderedTest" value="#{webDesignTestsController.getNextTest()}"/>
                     <ui:repeat value="#{webDesignTestsController.getSpecifiedTest(renderedTest)}" var="test">
                         <hr class="hr"/>
-                        <pre>#{test.title}</pre>
+                        <h:outputText value="#{test.title}" styleClass="test-title"/>
                         <ui:repeat value="#{test.getMapKeysAsList()}" var="possibleAnswer">
                             <label><input type="checkbox" name="group#{webDesignTestsController.counter}"
                                           value="#{possibleAnswer}">
@@ -48,8 +48,11 @@
                         </ui:repeat>
                         #{webDesignTestsController.incCounter()}
                     </ui:repeat>
-                    <h:commandButton value="Далее" actionListener="#{webDesignTestsController.handleResults()}"
-                                     update="test-content"/>
+                    <div class="button-wrapper">
+                        <h:commandLink action="#{webDesignTestsController.handleResults()}" update="test-content">
+                            <h:outputText value="Далее"/>
+                        </h:commandLink>
+                    </div>
                 </h:form>
             </div>
         </div>

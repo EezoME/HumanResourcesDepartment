@@ -1,0 +1,28 @@
+.test-head {
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+h3 {
+    padding-top: 15px;
+}
+
+.test-title {
+    padding: 0 30px;
+    font-family: "Times New Roman", serif;
+    font-size: 17px;
+}
+
+.test-title + label {
+    margin-top: 10px;
+}
+
+.test-results-head {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 20px;
+}
+
+.test-result {
+    line-height: 1.6;
+}

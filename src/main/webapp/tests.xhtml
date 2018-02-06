@@ -25,53 +25,68 @@
             <h:form id="test-submit-form">
                 <h:inputHidden value="#{indexController.current.id}" id="user-id"/>
 
-                <p:outputLabel value="*Ваше имя" for="name"/>
-                <h:inputText id="name" rendered="true" value="#{indexController.current.login}"/>
+                <p:outputLabel value="*Ваше имя" for="name">
+                    <h:inputText id="name" rendered="true" value="#{indexController.current.login}"/>
+                </p:outputLabel>
 
-                <h:outputLabel value="*Как долго вы работаете в данной организации?" for="how-long-working"/>
-                <h:selectOneMenu id="how-long-working" rendered="true" value="#{indexController.current.howLongWorking}" required="true">
-                    <f:selectItem itemLabel="Меньше полугода" itemValue="less-than-half-year"/>
-                    <f:selectItem itemLabel="До года" itemValue="less-than-one-year"/>
-                    <f:selectItem itemLabel="1 год" itemValue="one-year"/>
-                    <f:selectItem itemLabel="2 года" itemValue="two-years"/>
-                    <f:selectItem itemLabel="3 года" itemValue="three-years"/>
-                </h:selectOneMenu>
+                <h:outputLabel value="*Как долго вы работаете в данной организации?" for="how-long-working">
+                    <h:selectOneMenu id="how-long-working" rendered="true"
+                                     value="#{indexController.current.howLongWorking}"
+                                     required="true">
+                        <f:selectItem itemLabel="Меньше полугода" itemValue="less-than-half-year"/>
+                        <f:selectItem itemLabel="До года" itemValue="less-than-one-year"/>
+                        <f:selectItem itemLabel="1 год" itemValue="one-year"/>
+                        <f:selectItem itemLabel="2 года" itemValue="two-years"/>
+                        <f:selectItem itemLabel="3 года" itemValue="three-years"/>
+                    </h:selectOneMenu>
+                </h:outputLabel>
 
-                <h:outputLabel for="department-name" value="Наименование отдела, где работает опрашиваемый:"/>
-                <h:inputText id="department-name" value="#{indexController.current.departmentName}"/>
+                <h:outputLabel for="department-name" value="Наименование отдела, где работает опрашиваемый:">
+                    <h:inputText id="department-name" value="#{indexController.current.departmentName}"/>
+                </h:outputLabel>
 
-                <h:outputLabel value="*Пол" for="gender"/>
-                <h:selectOneMenu id="gender" rendered="true" value="#{indexController.current.gender}" required="true">
-                    <f:selectItem itemLabel="Мужской" itemValue="man"/>
-                    <f:selectItem itemLabel="Женский" itemValue="woman"/>
-                </h:selectOneMenu>
+                <h:outputLabel value="*Пол" for="gender">
+                    <h:selectOneMenu id="gender" rendered="true" value="#{indexController.current.gender}"
+                                     required="true">
+                        <f:selectItem itemLabel="Мужской" itemValue="man"/>
+                        <f:selectItem itemLabel="Женский" itemValue="woman"/>
+                    </h:selectOneMenu>
+                </h:outputLabel>
 
-                <h:outputLabel value="*Возраст (лет)" for="age"/>
-                <h:selectOneMenu id="age" rendered="true" value="#{indexController.current.age}" required="true">
-                    <c:forEach var="i" begin="18" end="55">
-                        <f:selectItem itemLabel="#{i}" itemValue="#{i}"/>
-                    </c:forEach>
-                </h:selectOneMenu>
+                <h:outputLabel value="*Возраст (лет)" for="age">
+                    <h:selectOneMenu id="age" rendered="true" value="#{indexController.current.age}" required="true">
+                        <c:forEach var="i" begin="18" end="55">
+                            <f:selectItem itemLabel="#{i}" itemValue="#{i}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+                </h:outputLabel>
 
-                <h:outputLabel value="*Ваше образование" for="education"/>
-                <h:selectOneMenu id="education" rendered="true" value="#{indexController.current.education}"
-                                 required="true">
-                    <f:selectItem itemLabel="Среднее неполное" itemValue="sec-inc"/>
-                    <f:selectItem itemLabel="Среднее" itemValue="sec"/>
-                    <f:selectItem itemLabel="Среднее-техническое" itemValue="sec-tech"/>
-                    <f:selectItem itemLabel="Высшее неполное" itemValue="high-inc"/>
-                    <f:selectItem itemLabel="Высшее" itemValue="high"/>
-                </h:selectOneMenu>
+                <h:outputLabel value="*Ваше образование" for="education">
+                    <h:selectOneMenu id="education" rendered="true" value="#{indexController.current.education}"
+                                     required="true">
+                        <f:selectItem itemLabel="Среднее неполное" itemValue="sec-inc"/>
+                        <f:selectItem itemLabel="Среднее" itemValue="sec"/>
+                        <f:selectItem itemLabel="Среднее-техническое" itemValue="sec-tech"/>
+                        <f:selectItem itemLabel="Высшее неполное" itemValue="high-inc"/>
+                        <f:selectItem itemLabel="Высшее" itemValue="high"/>
+                    </h:selectOneMenu>
+                </h:outputLabel>
 
-                <h:outputLabel value="*Выбрать специальность" for="specialization"/>
-                <h:selectOneMenu id="specialization" rendered="true" value="#{indexController.current.specialization}"
-                                 required="true">
-                    <f:selectItem itemLabel="Веб дизайнер" itemValue="web-designer"/>
-                    <f:selectItem itemLabel="Системный администратор" itemValue="sys-admin"/>
-                </h:selectOneMenu>
+                <h:outputLabel value="*Выбрать специальность" for="specialization">
+                    <h:selectOneMenu id="specialization" rendered="true"
+                                     value="#{indexController.current.specialization}"
+                                     required="true">
+                        <f:selectItem itemLabel="Веб дизайнер" itemValue="web-designer"/>
+                        <f:selectItem itemLabel="Системный администратор" itemValue="sys-admin"/>
+                    </h:selectOneMenu>
+                </h:outputLabel>
 
-                <h:commandButton value="Пройти тест" action="#{testController.submitTestForm}" update="main">
-                </h:commandButton>
+                <div class="button-wrapper">
+                    <h:commandLink action="#{testController.submitTestForm}"
+                                   styleClass="" update="main">
+                        <h:outputText value="Пройти тест"/>
+                    </h:commandLink>
+                </div>
             </h:form>
         </div>
     </div>

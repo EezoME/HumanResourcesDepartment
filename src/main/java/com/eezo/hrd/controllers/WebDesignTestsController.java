@@ -28,7 +28,7 @@ public class WebDesignTestsController implements Serializable {
     @PostConstruct
     public void init() {
         initWebDesigner1Tests();
-//        initWebDesigner2Tests();
+        initWebDesigner2Tests();
 //        initWebDesigner3Tests();
     }
 
@@ -42,6 +42,7 @@ public class WebDesignTestsController implements Serializable {
             passedTests.put("sys1", 0);
             passedTests.put("sys2", 0);
             indexController.getCurrent().setPassedTests(passedTests);
+            userFacade.edit(indexController.getCurrent());
         }
         for (String testName : passedTests.keySet()) {
             if (passedTests.get(testName) == 0) {
@@ -51,7 +52,7 @@ public class WebDesignTestsController implements Serializable {
         return "";
     }
 
-    public void handleResults() {
+    public String handleResults() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         if (params.get("web-test-1") != null) {
             int i = 0;
@@ -66,7 +67,9 @@ public class WebDesignTestsController implements Serializable {
                 i++;
             }
             indexController.getCurrent().getPassedTests().put("web1", rightAnswersCounter);
+            userFacade.edit(indexController.getCurrent());
         }
+        return "index.xhtml?faces-redirect=true";
     }
 
     public List<Test> getSpecifiedTest(String testName) {
@@ -279,13 +282,87 @@ public class WebDesignTestsController implements Serializable {
         newTest.setRightAnswers("val4");
         this.webDesignerTests1.add(newTest);
 
-        newTest = new Test("Какой тег в HTML5 отображает секцию навигационных ссылок??");
+        newTest = new Test("Какой тег в HTML5 отображает секцию навигационных ссылок?");
         newTest.addPossibleAnswer("val1", "<navigation>");
         newTest.addPossibleAnswer("val2", "<nav>");
         newTest.addPossibleAnswer("val3", "<navlinks>");
         newTest.addPossibleAnswer("val4", "<headmenu>");
         newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
+    }
+
+    private void initWebDesigner2Tests() {
+        this.webDesignerTests2 = new ArrayList<>();
+
+        Test newTest = new Test("Какую фразу при беседе с сотрудником лучше использовать при отсутствии результата, чтобы подчиненный почувствовал свою ответственность?");
+        newTest.addPossibleAnswer("val1", "Результата нет");
+        newTest.addPossibleAnswer("val2", "Мы не достигли результата");
+        newTest.addPossibleAnswer("val3", "Ты не выполнил задание");
+        newTest.setRightAnswers("val3");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Какой вопрос необходимо задать сотруднику, чтобы сформировать ответственное отношение к принятому заданию для выполнения");
+        newTest.addPossibleAnswer("val1", "Как ты понял, что нужно сделать?");
+        newTest.addPossibleAnswer("val2", "Ты обещаешь это сделать?");
+        newTest.addPossibleAnswer("val3", "Ты знаешь как это делать?");
+        newTest.setRightAnswers("val2");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Руководитель не смог добиться у руководства компании повышения заработной платы для своего сотрудника. Что в такой ситуации скажет ответственный руководитель своему сотруднику?");
+        newTest.addPossibleAnswer("val1", "Я очень старался, но нам с собственником не удалось договориться");
+        newTest.addPossibleAnswer("val2", "Я не смог отстоять твою просьбу");
+        newTest.addPossibleAnswer("val3", "Оказывается повышение заработной платы возможно только для тех, кто отработал в компании более трех лет");
+        newTest.setRightAnswers("val2");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Что скажет подчиненный, готовый взять на себя ответственность за поставленную ему задачу?");
+        newTest.addPossibleAnswer("val1", "Конечно, я сделаю все, чтобы достичь результата");
+        newTest.addPossibleAnswer("val2", "Конечно,я сделаю все, что только смогу");
+        newTest.addPossibleAnswer("val3", "Конечно,я постараюсь все успеть");
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Подчиненный упрекнул вас в том, что вы не выполнили данное ему обещание. Что нужно ему ответить, чтобы сохранить авторитет и продемонстрировать лидерскую ответственность?");
+        newTest.addPossibleAnswer("val1", "Компенсировать сотруднику причиненные неудобства, например, предоставить внеочередной отгул");
+        newTest.addPossibleAnswer("val2", "Разъяснить ситуацию, по которой вы вынуждены были так поступить");
+        newTest.addPossibleAnswer("val3", "Признать свою ошибку и извиниться");
+        newTest.setRightAnswers("val3");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Вышестоящий руководитель попросил вас порекомендовать сотрудника для управления новым проектом. На ком лежит ответственность, если рекомендованный вами сотрудник \"провалит\" доверенный ему проект?");
+        newTest.addPossibleAnswer("val1", "На сотруднике, ведь он несет ответственность за результаты проекта");
+        newTest.addPossibleAnswer("val2", "На вас, ведь вы его рекомендовали");
+        newTest.addPossibleAnswer("val3", "На вашем начальнике, ведь он принимал окончательное решение по кандидатуре");
+        newTest.setRightAnswers("val2");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Какой из озвученных сотрудником аргументов является действительно объективной причиной невыполнения задания?");
+        newTest.addPossibleAnswer("val1", "Бухгалтерия не предоставила необходимые данные");
+        newTest.addPossibleAnswer("val2", "Экономика находится в рецессии");
+        newTest.addPossibleAnswer("val3", "Объективных причин невыполнения не бывает");
+        newTest.setRightAnswers("val3");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Что должен сделать руководитель, чтобы сформировать ответственную позицию у подчиненного, если тот не справился с важной задачей?");
+        newTest.addPossibleAnswer("val1", "Лишить премии, чтобы исключить повторение подобных ситуаций");
+        newTest.addPossibleAnswer("val2", "Обсудить, где сотрудник ошибся, и дать совет, как ему поступать в подобных ситуациях в будущем");
+        newTest.addPossibleAnswer("val3", "Дать сотруднику возможность самостоятельно исправить ситуацию");
+        newTest.setRightAnswers("val2");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Ваш заместитель просит вас согласовать премии сотрудникам, участвующим в дополнительной проектной работе в их рабочее время. Ответственно ли он поступает?");
+        newTest.addPossibleAnswer("val1", "Да, потому что в следствие внедрения проекта выручка компании увеличится");
+        newTest.addPossibleAnswer("val2", "Да, дополнительная работа должна оплачиваться в любом случае");
+        newTest.addPossibleAnswer("val3", "Нет, он должен найти способы нематериальной мотивации");
+        newTest.setRightAnswers("val3");
+        this.webDesignerTests2.add(newTest);
+
+        newTest = new Test("Можно ли считать ответственным вашего сотрудника, если он отказывается от выполнения задания, которое находится вне рамок его должностных обязанностей?");
+        newTest.addPossibleAnswer("val1", "Да, вне зависимости от причины отказа");
+        newTest.addPossibleAnswer("val2", "Да, при условии, что он не умеет делать то, что ему поручили");
+        newTest.addPossibleAnswer("val3", "Нет, он в любом случае поступает безответственно");
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests2.add(newTest);
     }
 
     public List<Test> getWebDesignerTests1() {

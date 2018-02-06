@@ -53,7 +53,7 @@
             <c:if test="#{!indexController.current.userRole.toString().equals('GUEST')}">
                 <h:form styleClass="test-form">
                     <div class="button-wrapper">
-                        <h:commandLink action="/test-results.xhtml">
+                        <h:commandLink action="/test-results.xhtml?faces-redirect=true">
                             <h:outputText value="Подивитися результати тестів"/>
                         </h:commandLink>
                     </div>

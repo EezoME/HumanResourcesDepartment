@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Головна - #{indexController.titleSuffix}</title>
+    <c:if test="#{!userController.entered}">
+        <meta http-equiv="refresh" content="0; url=login.xhtml"/>
+    </c:if>
+    <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="header.css"/>
+    <h:outputStylesheet library="css" name="footer.css"/>
+    <h:outputStylesheet library="css" name="tests-page.css"/>
+</h:head>
+<h:body>
+    <comp:head/>
+    <p:growl autoUpdate="true"/>
+    <div class="main main-wrapper">
+        <div class="main-content" id="main">
+            <h3 class="test-results-head">Test results:</h3>
+            <ui:repeat value="#{indexController.current.passedTests.keySet().toArray()}" var="tests">
+                <span class="test-result">Test '#{tests}': #{indexController.current.passedTests.get(tests)} right answer(s).</span><br/>
+            </ui:repeat>
+        </div>
+    </div>
+    <comp:footer/>
+</h:body>
+</html>
