@@ -1,6 +1,7 @@
 package com.eezo.hrd.controllers;
 
 import com.eezo.hrd.entities.Test;
+import com.eezo.hrd.entities.TestAdditional;
 import com.eezo.hrd.enums.TestType;
 import com.eezo.hrd.facades.UserFacade;
 
@@ -23,13 +24,15 @@ public class WebDesignTestsController implements Serializable {
     private List<Test> webDesignerTests1;
     private List<Test> webDesignerTests2;
     private List<Test> webDesignerTests3;
+    private Map<String, TestAdditional> testsAdditionals;
     private int counter = 0;
 
     @PostConstruct
     public void init() {
+        this.testsAdditionals = new HashMap<>();
         initWebDesigner1Tests();
         initWebDesigner2Tests();
-//        initWebDesigner3Tests();
+        initWebDesigner3Tests();
     }
 
     public String getNextTest() {
@@ -87,6 +90,11 @@ public class WebDesignTestsController implements Serializable {
 
     private void initWebDesigner1Tests() {
         this.webDesignerTests1 = new ArrayList<>();
+        TestAdditional testAdditional = new TestAdditional();
+        testAdditional.setTitle("ПРОФЕССИОНАЛЬНАЯ КОМПЕТЕНЦИЯ");
+        testAdditional.setDesc("Знание стандартов работы веб-дизайнера и их эффективное применение на практике");
+        testAdditional.setSubDesc("Теоретические знания стандартов работы веб-дизайнера и эффективные навыки/опыт их применение на собственной профессиональной практике");
+        this.testsAdditionals.put("web1", testAdditional);
 
         Test newTest = new Test("Что адресует следующая ссылка? <a href=\"../images/1.jpg\" />");
         newTest.setDescription("Путь выходит на уровень вверх, а затем переходит в папку images в родительском каталоге.");
@@ -293,6 +301,14 @@ public class WebDesignTestsController implements Serializable {
 
     private void initWebDesigner2Tests() {
         this.webDesignerTests2 = new ArrayList<>();
+        TestAdditional testAdditional = new TestAdditional();
+        testAdditional.setTitle("КОММУНИКАТИВНЫЕ КОМПЕТЕНЦИИ");
+        testAdditional.setDesc("Коммуникабельность");
+        testAdditional.setSubDesc("Способность легко выстраивать отношения с разными типами людей и влиять на их мнение/поведение, использую различные техники общения.");
+        testAdditional.setWeightMap(new int[][]{
+                {1, 2, 3}, {2, 3, 1}, {2, 3, 1}, {3, 2, 1}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 3, 2}, {2, 1, 3}, {3, 2, 1}
+        });
+        this.testsAdditionals.put("web2", testAdditional);
 
         Test newTest = new Test("Какую фразу при беседе с сотрудником лучше использовать при отсутствии результата, чтобы подчиненный почувствовал свою ответственность?");
         newTest.addPossibleAnswer("val1", "Результата нет");
@@ -365,6 +381,30 @@ public class WebDesignTestsController implements Serializable {
         this.webDesignerTests2.add(newTest);
     }
 
+    private void initWebDesigner3Tests() {
+        this.webDesignerTests3 = new ArrayList<>();
+        TestAdditional testAdditional = new TestAdditional();
+        testAdditional.setTitle("ЛИЧНОСТНО-ДЕЛОВЫЕ КОМПЕТЕНЦИИ");
+        testAdditional.setDesc("Аналитическое мышление");
+        testAdditional.setSubDesc("Способность анализировать проблемы и выделять составляющие их элементы, делать систематизированные и логичные выводы, основанные на правильно отобранной информации.");
+        testAdditional.setWeightMap(new int[][]{
+                {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}
+        });
+        this.testsAdditionals.put("web3", testAdditional);
+
+        Map<String, String> possibleAnswers = new LinkedHashMap<>();
+        possibleAnswers.put("val1", "Никогда");
+        possibleAnswers.put("val2", "Редко");
+        possibleAnswers.put("val3", "Иногда");
+        possibleAnswers.put("val4", "Часто");
+        possibleAnswers.put("val5", "Всегда");
+
+        Test newTest = new Test("Какую фразу при беседе с сотрудником лучше использовать при отсутствии результата, чтобы подчиненный почувствовал свою ответственность?");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+    }
+
     public List<Test> getWebDesignerTests1() {
         return webDesignerTests1;
     }
@@ -403,5 +443,9 @@ public class WebDesignTestsController implements Serializable {
 
     public void resetCounter() {
         this.counter = 0;
+    }
+
+    public Map<String, TestAdditional> getTestsAdditionals() {
+        return testsAdditionals;
     }
 }

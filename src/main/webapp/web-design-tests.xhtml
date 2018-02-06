@@ -22,21 +22,20 @@
     <p:growl autoUpdate="true"/>
     <div class="main main-wrapper">
         <div class="main-content" id="main">
+            <c:set var="renderedTest" value="#{webDesignTestsController.getNextTest()}"/>
             <div class="test-head">
-                <h2>ПРОФЕССИОНАЛЬНАЯ КОМПЕТЕНЦИЯ</h2>
+                <h2>#{webDesignTestsController.testsAdditionals.get(renderedTest).title}</h2>
                 <div class="test-desc">
-                    Знание стандартов работы веб-дизайнера и их эффективное применение на практике
+                    #{webDesignTestsController.testsAdditionals.get(renderedTest).desc}
                 </div>
                 <h3>Описание:</h3>
                 <div class="test-desc">
-                    Теоретические знания стандартов работы веб-дизайнера и эффективные
-                    навыки/опыт их применение на собственной профессиональной практике
+                    #{webDesignTestsController.testsAdditionals.get(renderedTest).subDesc}
                 </div>
             </div>
             <div class="test-content" id="test-content">
                 <h:form id="web-test-1">
                     #{webDesignTestsController.resetCounter()}
-                    <c:set var="renderedTest" value="#{webDesignTestsController.getNextTest()}"/>
                     <ui:repeat value="#{webDesignTestsController.getSpecifiedTest(renderedTest)}" var="test">
                         <hr class="hr"/>
                         <h:outputText value="#{test.title}" styleClass="test-title"/>
