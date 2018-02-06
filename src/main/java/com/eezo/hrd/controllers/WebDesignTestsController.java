@@ -7,6 +7,7 @@ import com.eezo.hrd.facades.UserFacade;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class WebDesignTestsController implements Serializable {
     private List<Test> webDesignerTests1;
     private List<Test> webDesignerTests2;
     private List<Test> webDesignerTests3;
+    private int counter = 0;
 
     @PostConstruct
     public void init() {
@@ -49,6 +51,24 @@ public class WebDesignTestsController implements Serializable {
         return "";
     }
 
+    public void handleResults() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        if (params.get("web-test-1") != null) {
+            int i = 0;
+            int rightAnswersCounter = 0;
+            for (Test test : webDesignerTests1) {
+                String answer = params.get("group" + i);
+                for (String rightAnswer : test.getRightAnswers()) {
+                    if (rightAnswer.equals(answer)) {
+                        rightAnswersCounter++;
+                    }
+                }
+                i++;
+            }
+            indexController.getCurrent().getPassedTests().put("web1", rightAnswersCounter);
+        }
+    }
+
     public List<Test> getSpecifiedTest(String testName) {
         switch (testName) {
             case "web1":
@@ -70,7 +90,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val1", "изображение, расположенное в каталоге &quot;images&quot;, дочернем по отношению к текущему.");
         newTest.addPossibleAnswer("val2", "изображение, расположенное в каталоге &quot;images&quot;, родительском по отношению к текущему.");
         newTest.addPossibleAnswer("val3", "изображение, расположенное в каталоге &quot;images&quot;, который расположен в родительском по отношению к текущему каталогу.");
-        newTest.setRightAnswer("val3");
+        newTest.setRightAnswers("val3");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Для чего используется тег <TITLE>");
@@ -79,7 +99,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val2", "Определяет заголовок документа.");
         newTest.addPossibleAnswer("val3", "Определяет заголовок в тексте.");
         newTest.addPossibleAnswer("val4", "Определяет красную строку в тексте.");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой атрибут тега <td> указывает количество строк, занимаемых ячейкой?");
@@ -88,7 +108,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "vcells");
         newTest.addPossibleAnswer("val4", "colspan");
         newTest.addPossibleAnswer("val5", "rowspan");
-        newTest.setRightAnswer("val5");
+        newTest.setRightAnswers("val5");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Выберите все допустимые значения атрибута method у элемента form.", TestType.CHECKBOX);
@@ -106,7 +126,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "<a>http://www.quizful.net</a>");
         newTest.addPossibleAnswer("val4", "<a target=\"http://www.quizful.net\">quizful</a>");
         newTest.addPossibleAnswer("val5", "<a url=\"http://www.quizful.net\">quizful</a>");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Выберите фрагмент HTML-кода, создающий ссылку со всплывающей подсказкой.");
@@ -115,7 +135,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "<a help='подсказка'>текст ссылки</a>");
         newTest.addPossibleAnswer("val4", "<a title='подсказка'>текст ссылки</a>");
         newTest.addPossibleAnswer("val5", "<a tooltip='подсказка'>текст ссылки</a>");
-        newTest.setRightAnswer("val4");
+        newTest.setRightAnswers("val4");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой из приведенных фрагментов кода выравнивает содержимое ячейки по правому краю?");
@@ -124,7 +144,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "<td align=\"right\">");
         newTest.addPossibleAnswer("val4", "<td valign=\"right\">");
         newTest.addPossibleAnswer("val5", "<td textalign=\"right\">");
-        newTest.setRightAnswer("val3");
+        newTest.setRightAnswers("val3");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какое свойство устанавливает расстояние от края ячейки таблицы до её содержимого?");
@@ -133,7 +153,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "cellspacing");
         newTest.addPossibleAnswer("val4", "cellspace");
         newTest.addPossibleAnswer("val5", "Такого атрибута не существует");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой html-тег создает поле ввода?");
@@ -142,7 +162,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "<select>");
         newTest.addPossibleAnswer("val4", "<input>");
         newTest.addPossibleAnswer("val5", "<textbox>");
-        newTest.setRightAnswer("val4");
+        newTest.setRightAnswers("val4");
         newTest.setDescription("Тег <input> является одним из разносторонних элементов формы и позволяет создавать разные элементы интерфейса и обеспечить взаимодействие с пользователем. Главным образом <input> предназначен для создания текстовых полей, различных кнопок, переключателей и флажков.");
         this.webDesignerTests1.add(newTest);
 
@@ -177,7 +197,7 @@ public class WebDesignTestsController implements Serializable {
                 "    <li>Рим</li>\n" +
                 "    <li>Стамбул</li>\n" +
                 "</ol>\n");
-        newTest.setRightAnswer("val1");
+        newTest.setRightAnswers("val1");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Необходимо защитить текстовое поле формы от изменения значения пользователем.\n" +
@@ -187,7 +207,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "<input value=\"$999\" disabled/>");
         newTest.addPossibleAnswer("val4", "<input value=\"$999\" size=\"0\"/>");
         newTest.addPossibleAnswer("val5", "<input value=\"$999\" maxlength=\"0\"/>");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Как создать нумерованный список?");
@@ -197,7 +217,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val4", "<li>");
         newTest.addPossibleAnswer("val5", "<list type=\"ordered\">");
         newTest.addPossibleAnswer("val6", "<list>");
-        newTest.setRightAnswer("val3");
+        newTest.setRightAnswers("val3");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой браузер не отображает корректно прозрачность PNG-24 (альфа канал)");
@@ -205,7 +225,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val2", "Firefox 2.0");
         newTest.addPossibleAnswer("val3", "Internet Explorer 6, Internet Explorer 7");
         newTest.addPossibleAnswer("val4", "Opera 9.5");
-        newTest.setRightAnswer("val1");
+        newTest.setRightAnswers("val1");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой тег определяет изображение, которое будет использоваться в качестве фонового рисунка?");
@@ -213,7 +233,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val2", "<body background=...>");
         newTest.addPossibleAnswer("val3", "<body text...>");
         newTest.addPossibleAnswer("val4", "<body bgcolor=...>");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Как выглядит тэг <form> на странице?");
@@ -221,7 +241,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val2", "тэг <form> не имеет собственного графического представления - это контейнер для других элементов");
         newTest.addPossibleAnswer("val3", "тэг <form> не имеет собственного графического представления - это контейнер для текста");
         newTest.addPossibleAnswer("val4", "тэг <form> представляет из себя выдающий список");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Что делают эти спецсимволы &laquo; и &raquo;");
@@ -229,7 +249,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val2", "Увеличивают первую и последнюю буквы на 0,2 em");
         newTest.addPossibleAnswer("val3", "Заключают текст во двойные угловые кавычки");
         newTest.addPossibleAnswer("val4", "Заключают текст во одинарные угловые кавычки");
-        newTest.setRightAnswer("val3");
+        newTest.setRightAnswers("val3");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой тег предназначен для заголовков наименьшего размера?");
@@ -238,7 +258,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "<h6>");
         newTest.addPossibleAnswer("val4", "<h7>");
         newTest.addPossibleAnswer("val5", "<hmin>");
-        newTest.setRightAnswer("val3");
+        newTest.setRightAnswers("val3");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой тег используется для создания параграфа?");
@@ -247,7 +267,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "<f>");
         newTest.addPossibleAnswer("val4", "<paragraph>");
         newTest.addPossibleAnswer("val5", "<div>");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой атрибут тега <ol> начинает нумерацию списка с определённого значения?");
@@ -256,7 +276,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val3", "value");
         newTest.addPossibleAnswer("val4", "start");
         newTest.addPossibleAnswer("val5", "begin");
-        newTest.setRightAnswer("val4");
+        newTest.setRightAnswers("val4");
         this.webDesignerTests1.add(newTest);
 
         newTest = new Test("Какой тег в HTML5 отображает секцию навигационных ссылок??");
@@ -264,7 +284,7 @@ public class WebDesignTestsController implements Serializable {
         newTest.addPossibleAnswer("val2", "<nav>");
         newTest.addPossibleAnswer("val3", "<navlinks>");
         newTest.addPossibleAnswer("val4", "<headmenu>");
-        newTest.setRightAnswer("val2");
+        newTest.setRightAnswers("val2");
         this.webDesignerTests1.add(newTest);
     }
 
@@ -294,5 +314,17 @@ public class WebDesignTestsController implements Serializable {
 
     public void setIndexController(IndexController indexController) {
         this.indexController = indexController;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void incCounter() {
+        this.counter++;
+    }
+
+    public void resetCounter() {
+        this.counter = 0;
     }
 }

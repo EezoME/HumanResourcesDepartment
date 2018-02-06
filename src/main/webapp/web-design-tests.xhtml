@@ -34,25 +34,22 @@
                 </div>
             </div>
             <div class="test-content" id="test-content">
-                <h:form id="single-test">
+                <h:form id="web-test-1">
+                    #{webDesignTestsController.resetCounter()}
                     <c:set var="renderedTest" value="#{webDesignTestsController.getNextTest()}"/>
                     <ui:repeat value="#{webDesignTestsController.getSpecifiedTest(renderedTest)}" var="test">
+                        <hr class="hr"/>
                         <pre>#{test.title}</pre>
                         <ui:repeat value="#{test.getMapKeysAsList()}" var="possibleAnswer">
-                            <c:if test="#{test.testType.toString().equals('RADIO')}">
-                                <label><input type="radio" name="group1" value="#{possibleAnswer}">
-                                    #{test.possibleAnswers.get(possibleAnswer)}
-                                </input></label><br/>
-                            </c:if>
-                            <c:if test="#{test.testType.toString().equals('CHECKBOX')}">
-                                <label><input type="checkbox" name="group1" value="#{possibleAnswer}">
-                                    #{test.possibleAnswers.get(possibleAnswer)}
-                                </input></label><br/>
-                            </c:if>
+                            <label><input type="checkbox" name="group#{webDesignTestsController.counter}"
+                                          value="#{possibleAnswer}">
+                                #{test.possibleAnswers.get(possibleAnswer)}
+                            </input></label><br/>
                         </ui:repeat>
-                        <h:commandButton value="Далее" actionListener="#{webDesignTestsController.nextTest()}"
-                                         update="test-content"/>
+                        #{webDesignTestsController.incCounter()}
                     </ui:repeat>
+                    <h:commandButton value="Далее" actionListener="#{webDesignTestsController.handleResults()}"
+                                     update="test-content"/>
                 </h:form>
             </div>
         </div>
