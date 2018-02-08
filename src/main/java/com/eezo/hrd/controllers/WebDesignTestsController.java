@@ -26,6 +26,7 @@ public class WebDesignTestsController implements Serializable {
     private List<Test> webDesignerTests3;
     private Map<String, TestAdditional> testsAdditionals;
     private int counter = 0;
+    private String prevTest = "";
 
     @PostConstruct
     public void init() {
@@ -42,22 +43,23 @@ public class WebDesignTestsController implements Serializable {
             passedTests.put("web1", 0);
             passedTests.put("web2", 0);
             passedTests.put("web3", 0);
-            passedTests.put("sys1", 0);
-            passedTests.put("sys2", 0);
+//            passedTests.put("sys1", 0);
+//            passedTests.put("sys2", 0);
             indexController.getCurrent().setPassedTests(passedTests);
             userFacade.edit(indexController.getCurrent());
         }
         for (String testName : passedTests.keySet()) {
             if (passedTests.get(testName) == 0) {
+                prevTest = testName;
                 return testName;
             }
         }
-        return "";
+        return getNextTestByDefault();
     }
 
     public String handleResults() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        if (params.get("web-test-1") != null) {
+        if (params.get("web1-test") != null) {
             int i = 0;
             int rightAnswersCounter = 0;
             for (Test test : webDesignerTests1) {
@@ -70,6 +72,30 @@ public class WebDesignTestsController implements Serializable {
                 i++;
             }
             indexController.getCurrent().getPassedTests().put("web1", rightAnswersCounter);
+            userFacade.edit(indexController.getCurrent());
+        }
+        if (params.get("web2-test") != null) {
+            int score = 0;
+            for (int testNumber = 0; testNumber < webDesignerTests2.size(); testNumber++) {
+                String answer = params.get("group" + testNumber);
+                if (answer != null) {
+                    int i = Integer.parseInt(String.valueOf(answer.charAt(3)));
+                    score += testsAdditionals.get("web2").getWeightMap()[testNumber][i];
+                }
+            }
+            indexController.getCurrent().getPassedTests().put("web2", score);
+            userFacade.edit(indexController.getCurrent());
+        }
+        if (params.get("web3-test") != null) {
+            int score = 0;
+            for (int testNumber = 0; testNumber < webDesignerTests3.size(); testNumber++) {
+                String answer = params.get("group" + testNumber);
+                if (answer != null) {
+                    int i = Integer.parseInt(String.valueOf(answer.charAt(3)));
+                    score += testsAdditionals.get("web3").getWeightMap()[testNumber][i];
+                }
+            }
+            indexController.getCurrent().getPassedTests().put("web3", score);
             userFacade.edit(indexController.getCurrent());
         }
         return "index.xhtml?faces-redirect=true";
@@ -86,6 +112,21 @@ public class WebDesignTestsController implements Serializable {
             default:
                 return webDesignerTests1;
         }
+    }
+
+    private String getNextTestByDefault() {
+        if (prevTest.equals("web1")) {
+            return "web2";
+        } else if (prevTest.equals("web2")) {
+            return "web3";
+        } else if (prevTest.equals("web3")) {
+//            return "sys1";
+//        } else if (prevTest.equals("sys1")){
+//            return "sys2";
+//        } else if (prevTest.equals("sys2")){
+            return "web1";
+        }
+        return "web1";
     }
 
     private void initWebDesigner1Tests() {
@@ -388,7 +429,7 @@ public class WebDesignTestsController implements Serializable {
         testAdditional.setDesc("Аналитическое мышление");
         testAdditional.setSubDesc("Способность анализировать проблемы и выделять составляющие их элементы, делать систематизированные и логичные выводы, основанные на правильно отобранной информации.");
         testAdditional.setWeightMap(new int[][]{
-                {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}
+                {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}, {5, 4, 3, 2, 1}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5},
         });
         this.testsAdditionals.put("web3", testAdditional);
 
@@ -399,7 +440,102 @@ public class WebDesignTestsController implements Serializable {
         possibleAnswers.put("val4", "Часто");
         possibleAnswers.put("val5", "Всегда");
 
-        Test newTest = new Test("Какую фразу при беседе с сотрудником лучше использовать при отсутствии результата, чтобы подчиненный почувствовал свою ответственность?");
+        Test newTest = new Test("Когда у меня возникает проблема, я пытаюсь решить ее сам, прежде чем спрашивать босса что делать.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Когда я делегирую работу, я передаю ее тому, у кого есть больше окон в расписании.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я корректирую членов команды всякий раз, когда вижу, что их поведение негативно влияет на уровень обслуживания клиентов.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я принимаю решения после тщательного анализа, а не полагаюсь на интуицию.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я не даю коллективу терять много времени на обсуждение стратегий и распределение ролей, во время реализации задач все равно может произойти много изменений.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я жду, прежде чем дисциплинировать сотрудника, предоставляя шанс исправиться самостоятельно.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Умение идеально делать работу, которую выполняют мои сотрудники — это те навыки, которые мне нужны, чтобы быть эффективным менеджером.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я выделяю время для обсуждения с командой того, что идет хорошо, а что нуждается в улучшении.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("В ходе встреч, я беру на себя роль ведущего / содействующего, когда это необходимо. Это помогает команде достичь лучшего понимания вопроса или прийти к консенсусу.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я полностью понимаю, как работают бизнес-процессы в моем отделе, и устраняю узкие места.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Когда необходимо собрать команду, я определяю, какие навыки нужны — и ищу людей, лучше всего соответствующих выбранным критериям.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я делаю все, что могу для избегания конфликтов в команде.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я стараюсь мотивировать людей, адаптируя свои подходы к ним, чтобы соответствовать потребностям каждого сотрудника.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Когда команда делает грубую ошибку, я сообщаю о ней боссу, а потом анализирую важность полученного урока.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("При возникновении конфликта в новой команде, я воспринимаю это как неизбежный этап процесса ее развития.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я обсуждаю с членами команды их индивидуальные цели, и объединяю это с целями всей организации.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Если я формирую команду, то выбираю схожие личности, возраста, срок работы в компании, и другие характеристики.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я думаю, что утверждение: «Если хочешь сделать хорошо, сделай сам» верно.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val1");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я нахожу индивидуальный подход к каждому, чтобы обеспечить эффективную, комфортную и продуктивную работу.");
+        newTest.setPossibleAnswers(possibleAnswers);
+        newTest.setRightAnswers("val5");
+        this.webDesignerTests3.add(newTest);
+
+        newTest = new Test("Я информирую членов команды о том, что происходит в организации.");
         newTest.setPossibleAnswers(possibleAnswers);
         newTest.setRightAnswers("val5");
         this.webDesignerTests3.add(newTest);

@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="test-content" id="test-content">
-                <h:form id="web-test-1">
+                <h:form id="#{renderedTest}-test">
                     #{webDesignTestsController.resetCounter()}
                     <ui:repeat value="#{webDesignTestsController.getSpecifiedTest(renderedTest)}" var="test">
                         <hr class="hr"/>
