@@ -12,7 +12,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ public class IndexController implements Serializable {
     @Inject
     private UserController userController;
     private User current = new User();
-    private String redirectBack;
     private String titleSuffix = "Чорноморський суднобудівний завод";
 
     @PostConstruct
@@ -60,7 +58,6 @@ public class IndexController implements Serializable {
             newUser.setUserRole(UserRole.ADMIN);
             userFacade.create(newUser);
             users.add(newUser);
-//            logFacade.create(new Log("Приложение запущено"));
         }
     }
 
@@ -76,35 +73,31 @@ public class IndexController implements Serializable {
                 if (user.getPassword().equals(current.getPassword())) {
                     current = user;
                     current.setLastVisit(new Date());
-//                    logFacade.create(new Log(current.getLogin() + " entered from " + getIpRequest()));
                     userController.setCurrent(current);
                     userController.setEntered(true);
                     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
                     session.setAttribute("current", current);
-                    System.out.println(redirectBack);
-                    if (redirectBack == null || redirectBack.isEmpty()) {
-                        return "home.xhtml?faces-redirect=true";
-                    } else {
-                        String formatted = redirectBack + "?faces-redirect=true";
-                        redirectBack = null;
-                        return formatted;
-                    }
+                    return "home.xhtml?faces-redirect=true";
                 }
             }
         }
-//        logFacade.create(new Log("Wrong authorization probe of " + current.getLogin() + " from " + getIpRequest(), LoggerLevel.WARN));
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Не верный логин/пароль"));
         return "";
     }
 
-    private String getIpRequest() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");
-        if (ipAddress == null) {
-            ipAddress = request.getRemoteAddr();
-        }
-
-        return ipAddress;
+    public String loginAsGuest() {
+        User guest = new User();
+        guest.setLogin("guest" + guest.getId());
+        guest.setPassword("guest");
+        guest.setUserRole(UserRole.GUEST);
+        userFacade.create(guest);
+        current = guest;
+        current.setLastVisit(new Date());
+        userController.setCurrent(current);
+        userController.setEntered(true);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        session.setAttribute("current", current);
+        return "index.xhtml?faces-redirect=true";
     }
 
     public User getCurrent() {
@@ -120,10 +113,6 @@ public class IndexController implements Serializable {
         current = new User();
         userController.setEntered(false);
         return "index.xhtml?faces-redirect=true";
-    }
-
-    public void setRedirectBack(String redirectBack) {
-        this.redirectBack = redirectBack;
     }
 
     public String getTitleSuffix() {

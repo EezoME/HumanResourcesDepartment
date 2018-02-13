@@ -1,17 +1,14 @@
 package com.eezo.hrd.controllers;
 
-import com.eezo.hrd.entities.Test;
 import com.eezo.hrd.entities.User;
-import com.eezo.hrd.enums.TestType;
 import com.eezo.hrd.facades.UserFacade;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Named
@@ -19,7 +16,6 @@ import java.util.Map;
 public class TestController implements Serializable {
     @EJB
     private UserFacade userFacade;
-    private List<Test> sysAdminTests;
 
     public String submitTestForm() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -33,6 +29,7 @@ public class TestController implements Serializable {
             user.setAge(Integer.parseInt(params.get("test-submit-form:age")));
             user.setEducation(params.get("test-submit-form:education"));
             user.setSpecialization(params.get("test-submit-form:specialization"));
+            user.setPassedTests(new LinkedHashMap<>());
             userFacade.create(user);
         } else {
             user.setHowLongWorking(params.get("test-submit-form:how-long-working"));
@@ -45,15 +42,11 @@ public class TestController implements Serializable {
         }
 
         String test = params.get("test-submit-form:specialization");
-        if (test.equals("web-designer")) {
+        if (test.equals("web")) {
             return "web-design-tests.xhtml?faces-redirect=true";
-        } else if (test.equals("sys-admin")) {
+        } else if (test.equals("sys")) {
             return "sys-admin-tests?faces-redirect=true";
         }
         return "";
-    }
-
-    public List<Test> getSysAdminTests() {
-        return sysAdminTests;
     }
 }

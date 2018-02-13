@@ -76,13 +76,13 @@
                     <h:selectOneMenu id="specialization" rendered="true"
                                      value="#{indexController.current.specialization}"
                                      required="true">
-                        <f:selectItem itemLabel="Веб дизайнер" itemValue="web-designer"/>
-                        <f:selectItem itemLabel="Системный администратор" itemValue="sys-admin"/>
+                        <f:selectItem itemLabel="Веб дизайнер" itemValue="web"/>
+                        <f:selectItem itemLabel="Системный администратор" itemValue="sys"/>
                     </h:selectOneMenu>
                 </h:outputLabel>
 
                 <div class="button-wrapper">
-                    <h:commandLink action="#{testController.submitTestForm}"
+                    <h:commandLink action="#{testController.submitTestForm()}"
                                    styleClass="" update="main">
                         <h:outputText value="Пройти тест"/>
                     </h:commandLink>

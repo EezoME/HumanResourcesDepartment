@@ -7,12 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Single test.
+ */
 public class Test {
     private String title;
     private Map<String, String> possibleAnswers;
+    private int[] answersWeights;
     private String description;
-    private String rightAnswer;
-    private String[] rightAnswers;
     private TestType testType;
 
     public Test(String title) {
@@ -29,7 +31,7 @@ public class Test {
         this.testType = testType;
     }
 
-    public List<String> getMapKeysAsList(){
+    public List<String> getMapKeysAsList() {
         return new ArrayList<>(this.possibleAnswers.keySet());
     }
 
@@ -61,14 +63,6 @@ public class Test {
         this.description = description;
     }
 
-    public String getRightAnswer() {
-        return rightAnswer;
-    }
-
-    public void setRightAnswer(String rightAnswer) {
-        this.rightAnswer = rightAnswer;
-    }
-
     public TestType getTestType() {
         return testType;
     }
@@ -77,11 +71,11 @@ public class Test {
         this.testType = testType;
     }
 
-    public String[] getRightAnswers() {
-        return rightAnswers;
+    public int[] getAnswersWeights() {
+        return answersWeights;
     }
 
-    public void setRightAnswers(String... rightAnswers) {
-        this.rightAnswers = rightAnswers;
+    public void setAnswersWeights(int[] answersWeights) {
+        this.answersWeights = answersWeights;
     }
 }

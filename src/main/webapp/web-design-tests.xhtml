@@ -19,29 +19,27 @@
 </h:head>
 <h:body>
     <comp:head/>
-    #{webDesignTestsController.getNextTests()}
-    <c:set var="renderedTest" value="#{webDesignTestsController.nextTest}"/>
     <p:growl autoUpdate="true"/>
     <div class="main main-wrapper">
-        <div class="main-content" id="main">
+        <h:form class="main-content" id="main">
+            #{webDesignTestsController.nextTestUnit()}
+            <c:if test="#{webDesignTestsController.testUnit == null}">
+                <script type="application/javascript">window.location.href='test-results.xhtml?faces-redirect=true'</script>
+            </c:if>
             <div class="test-head">
-                <h2>#{webDesignTestsController.testsAdditionals.get(renderedTest).title}</h2>
+                <h2>#{webDesignTestsController.testUnit.title}</h2>
                 <div class="test-desc">
-                    #{webDesignTestsController.testsAdditionals.get(renderedTest).desc}
-                </div>
-                <h3>Описание:</h3>
-                <div class="test-desc">
-                    #{webDesignTestsController.testsAdditionals.get(renderedTest).subDesc}
+                    #{webDesignTestsController.testUnit.desc}
                 </div>
             </div>
             <div class="test-content" id="test-content">
-                <h:form id="#{renderedTest}-test">
+                <h:outputText id="#{webDesignTestsController.testUnit.testUnitCode}-test">
                     #{webDesignTestsController.resetCounter()}
-                    <ui:repeat value="#{webDesignTestsController.getSpecifiedTest(renderedTest)}" var="test">
+                    <ui:repeat value="#{webDesignTestsController.testUnit.tests}" var="test">
                         <hr class="hr"/>
                         <h:outputText value="#{test.title}" styleClass="test-title"/>
                         <ui:repeat value="#{test.getMapKeysAsList()}" var="possibleAnswer">
-                            <label><input type="checkbox" name="group#{webDesignTestsController.counter}"
+                            <label><input type="#{test.testType.toString()}" name="group#{webDesignTestsController.counter}"
                                           value="#{possibleAnswer}">
                                 #{test.possibleAnswers.get(possibleAnswer)}
                             </input></label><br/>
@@ -49,13 +47,13 @@
                         #{webDesignTestsController.incCounter()}
                     </ui:repeat>
                     <div class="button-wrapper">
-                        <h:commandLink action="#{webDesignTestsController.handleResults()}" update="test-content">
+                        <h:commandLink action="#{webDesignTestsController.handleResults()}" update="main">
                             <h:outputText value="Далее"/>
                         </h:commandLink>
                     </div>
-                </h:form>
+                </h:outputText>
             </div>
-        </div>
+        </h:form>
     </div>
     <comp:footer/>
 </h:body>
