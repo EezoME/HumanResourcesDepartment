@@ -27,6 +27,7 @@ public class WebDesignTestsController implements Serializable {
     private Map<String, TestAdditional> testsAdditionals;
     private int counter = 0;
     private String prevTest = "";
+    private String nextTest = "web1";
 
     @PostConstruct
     public void init() {
@@ -36,7 +37,7 @@ public class WebDesignTestsController implements Serializable {
         initWebDesigner3Tests();
     }
 
-    public String getNextTest() {
+    public void getNextTests() {
         Map<String, Integer> passedTests = indexController.getCurrent().getPassedTests();
         if (passedTests == null) {
             passedTests = new LinkedHashMap<>();
@@ -51,10 +52,12 @@ public class WebDesignTestsController implements Serializable {
         for (String testName : passedTests.keySet()) {
             if (passedTests.get(testName) == 0) {
                 prevTest = testName;
-                return testName;
+                nextTest = testName;
+//                return testName;
             }
         }
-        return getNextTestByDefault();
+        getNextTestByDefault();
+//        return
     }
 
     public String handleResults() {
@@ -79,7 +82,7 @@ public class WebDesignTestsController implements Serializable {
             for (int testNumber = 0; testNumber < webDesignerTests2.size(); testNumber++) {
                 String answer = params.get("group" + testNumber);
                 if (answer != null) {
-                    int i = Integer.parseInt(String.valueOf(answer.charAt(3)));
+                    int i = Integer.parseInt(String.valueOf(answer.charAt(3))) - 1;
                     score += testsAdditionals.get("web2").getWeightMap()[testNumber][i];
                 }
             }
@@ -91,7 +94,7 @@ public class WebDesignTestsController implements Serializable {
             for (int testNumber = 0; testNumber < webDesignerTests3.size(); testNumber++) {
                 String answer = params.get("group" + testNumber);
                 if (answer != null) {
-                    int i = Integer.parseInt(String.valueOf(answer.charAt(3)));
+                    int i = Integer.parseInt(String.valueOf(answer.charAt(3))) - 1;
                     score += testsAdditionals.get("web3").getWeightMap()[testNumber][i];
                 }
             }
@@ -116,16 +119,24 @@ public class WebDesignTestsController implements Serializable {
 
     private String getNextTestByDefault() {
         if (prevTest.equals("web1")) {
+            prevTest = "web2";
+            nextTest = "web2";
             return "web2";
         } else if (prevTest.equals("web2")) {
+            prevTest = "web3";
+            nextTest = "web3";
             return "web3";
         } else if (prevTest.equals("web3")) {
 //            return "sys1";
 //        } else if (prevTest.equals("sys1")){
 //            return "sys2";
 //        } else if (prevTest.equals("sys2")){
+            prevTest = "web1";
+            nextTest = "web1";
             return "web1";
         }
+        prevTest = "web1";
+        nextTest = "web1";
         return "web1";
     }
 
@@ -583,5 +594,13 @@ public class WebDesignTestsController implements Serializable {
 
     public Map<String, TestAdditional> getTestsAdditionals() {
         return testsAdditionals;
+    }
+
+    public void setNextTest(String nextTest) {
+        this.nextTest = nextTest;
+    }
+
+    public String getNextTest() {
+        return nextTest;
     }
 }

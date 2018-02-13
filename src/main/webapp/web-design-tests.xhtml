@@ -19,10 +19,11 @@
 </h:head>
 <h:body>
     <comp:head/>
+    #{webDesignTestsController.getNextTests()}
+    <c:set var="renderedTest" value="#{webDesignTestsController.nextTest}"/>
     <p:growl autoUpdate="true"/>
     <div class="main main-wrapper">
         <div class="main-content" id="main">
-            <c:set var="renderedTest" value="#{webDesignTestsController.getNextTest()}"/>
             <div class="test-head">
                 <h2>#{webDesignTestsController.testsAdditionals.get(renderedTest).title}</h2>
                 <div class="test-desc">

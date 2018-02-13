@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp">
+<h:head>
+    <title>Головна - #{indexController.titleSuffix}</title>
+    <c:if test="#{!userController.entered}">
+        <meta http-equiv="refresh" content="0; url=login.xhtml"/>
+    </c:if>
+    <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="header.css"/>
+    <h:outputStylesheet library="css" name="footer.css"/>
+    <h:outputStylesheet library="css" name="index-page.css"/>
+</h:head>
+<h:body>
+    <comp:head/>
+    <p:growl autoUpdate="true" id="msgs"/>
+    <div class="main main-wrapper">
+        <div class="main-content">
+            <h:form id="form">
+                <p:panel id="toggleable" header="Директор" toggleable="true" closable="true" toggleSpeed="500"
+                         closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+                    <p:ajax event="toggle" update="msgs"/>
+
+                    <h:panelGrid columns="1" cellpadding="10">
+                        <h:outputText value="ФИО: Попов Константин Константинович"/>
+                        <h:outputText value="Телефон: +380505648962"/>
+                        <h:outputText value="Факс: +380512584698"/>
+                        <h:outputText value="Дата рождения: 12.12.1970"/>
+                    </h:panelGrid>
+
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin"
+                                            onclick="PF('panel').toggle()"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
+                </p:panel>
+            </h:form>
+        </div>
+    </div>
+    <comp:footer/>
+</h:body>
+</html>
