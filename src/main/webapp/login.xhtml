@@ -25,7 +25,7 @@
             </h:outputText>
             <h:form id="user-data">
                 <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel value="Логин: "/>
+                    <h:outputLabel value="Логін: "/>
                     <p:inputText id="login" value="#{indexController.current.login}"/>
                     <h:outputLabel value="Пароль: "/>
                     <p:password id="nonFeedback" value="#{indexController.current.password}"/>
@@ -33,12 +33,12 @@
                 <div class="button-center">
                     <div class="button-wrapper">
                         <h:commandLink action="#{indexController.login()}">
-                            <h:outputText value="Войти"/>
+                            <h:outputText value="Увійти"/>
                         </h:commandLink>
                     </div>
                     <div class="button-wrapper">
                         <h:commandLink id="as-guest" action="#{indexController.loginAsGuest()}">
-                            <h:outputText value="Войти как гость"/>
+                            <h:outputText value="Увійти як гість"/>
                         </h:commandLink>
                     </div>
                 </div>

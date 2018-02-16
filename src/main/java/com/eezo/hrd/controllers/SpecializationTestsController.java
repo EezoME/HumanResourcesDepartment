@@ -8,12 +8,13 @@ import com.eezo.hrd.enums.TestType;
 import javax.annotation.PostConstruct;
 import javax.ejb.Startup;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 
 @Named
-@Stateless
+@ApplicationScoped
 @Startup
 public class SpecializationTestsController implements Serializable {
     private List<SpecializationTest> specializationTests;

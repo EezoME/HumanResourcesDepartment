@@ -2,38 +2,41 @@ package com.eezo.hrd.controllers;
 
 import com.eezo.hrd.entities.SpecializationTest;
 import com.eezo.hrd.entities.TestUnit;
-import com.eezo.hrd.entities.User;
 import com.eezo.hrd.facades.UserFacade;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 
-@Named
+@ManagedBean
 @SessionScoped
 public class WebDesignTestsController implements Serializable {
     @Inject
-    private IndexController indexController;
+    private UserController userController;
     @Inject
     private SpecializationTestsController specializationTestsController;
     @EJB
     private UserFacade userFacade;
     private TestUnit testUnit;
-    private int testUnitIndex = 0;
-    private int counter = 0;
+    private int testUnitIndex;
+    private int counter;
 
     @PostConstruct
     public void init() {
+        testUnitIndex = 0;
+        counter = 0;
+        nextTestUnit();
     }
 
     public void nextTestUnit() {
         for (SpecializationTest specializationTest : specializationTestsController.getSpecializationTests()) {
-            if (specializationTest.getSpecializationCode().equals(indexController.getCurrent().getSpecialization())) {
+            if (specializationTest.getSpecializationCode().equals(userController.getCurrent().getSpecialization())) {
                 if (testUnitIndex >= specializationTest.getTestUnits().length) {
                     testUnit = null;
                     testUnitIndex = 0;
@@ -57,8 +60,8 @@ public class WebDesignTestsController implements Serializable {
                     score += testUnit.getTests().get(testNumber).getAnswersWeights()[i];
                 }
             }
-            indexController.getCurrent().getPassedTests().put(testUnit.getTestUnitCode(), score);
-            userFacade.edit(indexController.getCurrent());
+            userController.getCurrent().getPassedTests().put(testUnit.getTestUnitCode(), score);
+            userFacade.edit(userController.getCurrent());
         }
         return "";
     }
@@ -66,7 +69,7 @@ public class WebDesignTestsController implements Serializable {
     public String getCompValue(String unitTestName){
         TestUnit currentTestUnit = null;
         for (SpecializationTest specializationTest : specializationTestsController.getSpecializationTests()){
-            if (!indexController.getCurrent().getSpecialization().equals(specializationTest.getSpecializationCode())) {
+            if (!userController.getCurrent().getSpecialization().equals(specializationTest.getSpecializationCode())) {
                 continue;
             }
             for (TestUnit testUnit : specializationTest.getTestUnits()){
@@ -76,7 +79,8 @@ public class WebDesignTestsController implements Serializable {
             }
         }
         if (currentTestUnit == null) return "";
-        double percentage = indexController.getCurrent().getPassedTests().get(unitTestName) / currentTestUnit.getTests().size();
+        if (userController.getCurrent().getPassedTests() ==null) return "Ви ще не проходили тести";
+        double percentage = userController.getCurrent().getPassedTests().get(unitTestName) / currentTestUnit.getTests().size();
         return percentage + " / 1";
     }
 
@@ -88,12 +92,12 @@ public class WebDesignTestsController implements Serializable {
         this.userFacade = userFacade;
     }
 
-    public IndexController getIndexController() {
-        return indexController;
+    public UserController getUserController() {
+        return userController;
     }
 
-    public void setIndexController(IndexController indexController) {
-        this.indexController = indexController;
+    public void setUserController(UserController userController) {
+        this.userController = userController;
     }
 
     public int getCounter() {
@@ -122,5 +126,9 @@ public class WebDesignTestsController implements Serializable {
 
     public void setTestUnit(TestUnit testUnit) {
         this.testUnit = testUnit;
+    }
+
+    public int getTestUnitIndex() {
+        return testUnitIndex;
     }
 }

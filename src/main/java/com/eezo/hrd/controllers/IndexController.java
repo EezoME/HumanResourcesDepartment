@@ -34,7 +34,6 @@ public class IndexController implements Serializable {
         try {
             users = userFacade.findAll();
         } catch (EJBException exception) {
-//            logFacade.create(new Log(exception));
         }
 
         boolean found = false;
@@ -47,8 +46,8 @@ public class IndexController implements Serializable {
         }
         if (!found) {
             User newUser = new User();
-            newUser.setPassword("++++");
             newUser.setLogin("eezo");
+            newUser.setPassword("++++");
             newUser.setUserRole(UserRole.DEVELOPER);
             userFacade.create(newUser);
             users.add(newUser);
@@ -66,7 +65,7 @@ public class IndexController implements Serializable {
     }
 
     public String login() {
-        List<User> users = userFacade.findAll();
+        List<User> users = this.userFacade.findAll();
 
         for (User user : users) {
             if (user.getLogin().equalsIgnoreCase(current.getLogin())) {
@@ -76,12 +75,12 @@ public class IndexController implements Serializable {
                     userController.setCurrent(current);
                     userController.setEntered(true);
                     HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-                    session.setAttribute("current", current);
-                    return "home.xhtml?faces-redirect=true";
+                    session.setAttribute("current", this.current);
+                    return "index.xhtml?faces-redirect=true";
                 }
             }
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Не верный логин/пароль"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Невірно вказаний логін/пароль."));
         return "";
     }
 
@@ -112,7 +111,7 @@ public class IndexController implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         current = new User();
         userController.setEntered(false);
-        return "index.xhtml?faces-redirect=true";
+        return "login.xhtml?faces-redirect=true";
     }
 
     public String getTitleSuffix() {

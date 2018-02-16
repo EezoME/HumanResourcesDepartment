@@ -59,6 +59,13 @@
                     </div>
                 </h:form>
             </c:if>
+            <h:form styleClass="test-form">
+                <div class="button-wrapper">
+                    <h:commandLink action="#{indexController.logout()}">
+                        <h:outputText value="Вийти із системи"/>
+                    </h:commandLink>
+                </div>
+            </h:form>
         </div>
     </div>
     <comp:footer/>

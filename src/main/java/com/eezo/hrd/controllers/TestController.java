@@ -6,7 +6,9 @@ import com.eezo.hrd.facades.UserFacade;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,10 +18,12 @@ import java.util.Map;
 public class TestController implements Serializable {
     @EJB
     private UserFacade userFacade;
+    @Inject
+    private IndexController indexController;
 
     public String submitTestForm() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        User user = userFacade.find(Long.parseLong(params.get("test-submit-form:user-id")));
+        User user = ((User) ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false)).getAttribute("current"));
         if (user == null) {
             user = new User();
             user.setLogin(params.get("test-submit-form:name"));
@@ -38,6 +42,9 @@ public class TestController implements Serializable {
             user.setAge(Integer.parseInt(params.get("test-submit-form:age")));
             user.setEducation(params.get("test-submit-form:education"));
             user.setSpecialization(params.get("test-submit-form:specialization"));
+            if (user.getPassedTests() == null) {
+                user.setPassedTests(new LinkedHashMap<>());
+            }
             userFacade.edit(user);
         }
 
@@ -48,5 +55,13 @@ public class TestController implements Serializable {
             return "sys-admin-tests?faces-redirect=true";
         }
         return "";
+    }
+
+    public IndexController getIndexController() {
+        return indexController;
+    }
+
+    public void setIndexController(IndexController indexController) {
+        this.indexController = indexController;
     }
 }
