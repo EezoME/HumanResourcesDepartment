@@ -10,7 +10,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 
@@ -66,20 +65,20 @@ public class WebDesignTestsController implements Serializable {
         return "";
     }
 
-    public String getCompValue(String unitTestName){
+    public String getCompValue(String unitTestName) {
         TestUnit currentTestUnit = null;
-        for (SpecializationTest specializationTest : specializationTestsController.getSpecializationTests()){
+        for (SpecializationTest specializationTest : specializationTestsController.getSpecializationTests()) {
             if (!userController.getCurrent().getSpecialization().equals(specializationTest.getSpecializationCode())) {
                 continue;
             }
-            for (TestUnit testUnit : specializationTest.getTestUnits()){
-                if (testUnit.getTestUnitCode().equals(unitTestName)){
+            for (TestUnit testUnit : specializationTest.getTestUnits()) {
+                if (testUnit.getTestUnitCode().equals(unitTestName)) {
                     currentTestUnit = testUnit;
                 }
             }
         }
         if (currentTestUnit == null) return "";
-        if (userController.getCurrent().getPassedTests() ==null) return "Ви ще не проходили тести";
+        if (userController.getCurrent().getPassedTests() == null) return "Ви ще не проходили тести";
         double percentage = userController.getCurrent().getPassedTests().get(unitTestName) / currentTestUnit.getTests().size();
         return percentage + " / 1";
     }
