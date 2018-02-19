@@ -2,20 +2,24 @@ package com.eezo.hrd.controllers;
 
 import com.eezo.hrd.entities.SpecializationTest;
 import com.eezo.hrd.entities.TestUnit;
+import com.eezo.hrd.entities.User;
+import com.eezo.hrd.enums.UserRole;
 import com.eezo.hrd.facades.UserFacade;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class WebDesignTestsController implements Serializable {
+    @Inject
+    private IndexController indexController;
     @Inject
     private UserController userController;
     @Inject
@@ -35,7 +39,7 @@ public class WebDesignTestsController implements Serializable {
 
     public void nextTestUnit() {
         for (SpecializationTest specializationTest : specializationTestsController.getSpecializationTests()) {
-            if (specializationTest.getSpecializationCode().equals(userController.getCurrent().getSpecialization())) {
+            if (specializationTest.getSpecializationCode().equals(indexController.getUserToSession().getSpecialization())) {
                 if (testUnitIndex >= specializationTest.getTestUnits().length) {
                     testUnit = null;
                     testUnitIndex = 0;
@@ -59,16 +63,23 @@ public class WebDesignTestsController implements Serializable {
                     score += testUnit.getTests().get(testNumber).getAnswersWeights()[i];
                 }
             }
-            userController.getCurrent().getPassedTests().put(testUnit.getTestUnitCode(), score);
-            userFacade.edit(userController.getCurrent());
+            User user = indexController.getUserToSession();
+            user.getPassedTests().put(testUnit.getTestUnitCode(), score);
+            indexController.setUserToSession(user);
+            userFacade.edit(indexController.getUserToSession());
+            if (user.getPassedTests().size() == specializationTestsController.getSpecializationTests().get(specializationTestsController.getSpecializationTests().size() - 1).getTestUnits().length) {
+                return "test-results.xhtml?faces-redirect=true";
+            }
+            nextTestUnit();
         }
         return "";
     }
 
     public String getCompValue(String unitTestName) {
         TestUnit currentTestUnit = null;
+        User user = indexController.getUserToSession();
         for (SpecializationTest specializationTest : specializationTestsController.getSpecializationTests()) {
-            if (!userController.getCurrent().getSpecialization().equals(specializationTest.getSpecializationCode())) {
+            if (!user.getSpecialization().equals(specializationTest.getSpecializationCode())) {
                 continue;
             }
             for (TestUnit testUnit : specializationTest.getTestUnits()) {
@@ -78,25 +89,44 @@ public class WebDesignTestsController implements Serializable {
             }
         }
         if (currentTestUnit == null) return "";
-        if (userController.getCurrent().getPassedTests() == null) return "Ви ще не проходили тести";
-        double percentage = userController.getCurrent().getPassedTests().get(unitTestName) / currentTestUnit.getTests().size();
-        return percentage + " / 1";
+        if (user.getPassedTests() == null) return "Ви ще не проходили тести";
+        if (user.getPassedTests().get(unitTestName) > 0) {
+            double percentage = (double) user.getPassedTests().get(unitTestName) / (double) currentTestUnit.getTests().size();
+            return percentage + " / 1";
+        } else {
+            return "0 / 1";
+        }
     }
 
-    public UserFacade getUserFacade() {
-        return userFacade;
+    public String getTotalResult() {
+        double result = 0.0d;
+        User user = indexController.getUserToSession();
+        for (SpecializationTest specializationTest : specializationTestsController.getSpecializationTests()) {
+            if (!user.getSpecialization().equals(specializationTest.getSpecializationCode())) {
+                continue;
+            }
+            result = specializationTest.getTotalResult(user.getPassedTests());
+        }
+        String resultAsString = "Виявлений загальний рівень компетенції - " + round(result, 2) + ".\n";
+        if (result < 0.7d) {
+            if (user.getUserRole().equals(UserRole.GUEST)) {
+                return resultAsString + "Ваш професійний рівень не відповідає посаді, яку ви хочете займати. Ми радиом вам підвищити свій професіональний вибір.";
+            } else {
+                return resultAsString + "Вам потрібно підвищити свій професійний рівень для відповідності посаді, яку ви займаєте.";
+            }
+        } else {
+            if (user.getUserRole().equals(UserRole.GUEST)) {
+                return resultAsString + "Ваш професійний рівень дозволяє зайняти обрану посаду. Для подальшого працевлаштування вам необхідно прийти до відділу кадрів.";
+            } else {
+                return resultAsString + "Дякуємо, ваш професійний рівень відповідає посаді, яку ви займаєте.";
+            }
+        }
     }
 
-    public void setUserFacade(UserFacade userFacade) {
-        this.userFacade = userFacade;
-    }
-
-    public UserController getUserController() {
-        return userController;
-    }
-
-    public void setUserController(UserController userController) {
-        this.userController = userController;
+    public double round(double value, int decimals) {
+        value *= Math.pow(10, decimals);
+        value = Math.round(value);
+        return value / Math.pow(10, decimals);
     }
 
     public int getCounter() {

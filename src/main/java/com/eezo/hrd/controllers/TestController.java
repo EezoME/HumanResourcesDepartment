@@ -8,7 +8,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,7 +22,7 @@ public class TestController implements Serializable {
 
     public String submitTestForm() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        User user = ((User) ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false)).getAttribute("current"));
+        User user = indexController.getUserToSession();
         if (user == null) {
             user = new User();
             user.setLogin(params.get("test-submit-form:name"));
@@ -42,9 +41,7 @@ public class TestController implements Serializable {
             user.setAge(Integer.parseInt(params.get("test-submit-form:age")));
             user.setEducation(params.get("test-submit-form:education"));
             user.setSpecialization(params.get("test-submit-form:specialization"));
-            if (user.getPassedTests() == null) {
-                user.setPassedTests(new LinkedHashMap<>());
-            }
+            user.setPassedTests(new LinkedHashMap<>());
             userFacade.edit(user);
         }
 

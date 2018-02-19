@@ -21,10 +21,7 @@
     <comp:head/>
     <p:growl autoUpdate="true"/>
     <div class="main main-wrapper">
-        <h:form class="main-content" title="#{webDesignTestsController.nextTestUnit()}" id="#{webDesignTestsController.testUnit.testUnitCode}-test">
-            <c:if test="#{webDesignTestsController.testUnitIndex gt 2}">
-                <script type="application/javascript">window.location.href = 'test-results.xhtml?faces-redirect=true'</script>
-            </c:if>
+        <h:form class="main-content" id="#{webDesignTestsController.testUnit.testUnitCode}-test">
             <div class="test-head">
                 <h2>#{webDesignTestsController.testUnit.title}</h2>
                 <div class="test-desc">

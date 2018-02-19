@@ -8,6 +8,10 @@ body {
     /*height: 100%;*/
 }
 
+html {
+    background-image: url("../resources/images/background.jpg");
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -16,12 +20,14 @@ body {
     padding-right: 20px;
     padding-bottom: 30px;
     padding-left: 20px;
+    color: #fff;
 }
 
 .all-center {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 100%;
     text-align: center;
     transform: translate(-50%, -50%);
 }
@@ -46,16 +52,18 @@ label > input, label > select {
 
 .button-wrapper {
     max-width: 150px;
-    padding: 7px 20px;
-    border: 2px solid #000;
-    background-color: #fff;
+    padding: 0 20px;
+    border: 2px solid #0940bb;
+    border-radius: 10px;
+    background-color: #1e98e0;
     font-size: 20px;
     text-align: center;
+    color: #fff;
     transition-duration: 0.3s;
 }
 
 .button-wrapper:hover {
-    background-color: #000;
+    background-color: #0940bb;
     color: #fff;
 }
 

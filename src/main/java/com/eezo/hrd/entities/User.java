@@ -6,7 +6,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -30,13 +29,6 @@ public class User implements Serializable {
     private String specialization;
     @Lob
     private Map<String, Integer> passedTests;
-
-    public double getFinalWebTestResult(int web1Size, int web2Size, int web3Size){
-        double first = passedTests.get("web1") / web1Size;
-        double second = passedTests.get("web2") / web2Size;
-        double third = passedTests.get("web3") / web3Size;
-        return first * 0.7 + second * 0.1 + third * 0.2;
-    }
 
     public Long getId() {
         return id;

@@ -57,6 +57,12 @@ public class IndexController implements Serializable {
             newUser.setUserRole(UserRole.ADMIN);
             userFacade.create(newUser);
             users.add(newUser);
+            newUser = new User();
+            newUser.setLogin("konstantin");
+            newUser.setPassword("++++");
+            newUser.setUserRole(UserRole.ADMIN);
+            userFacade.create(newUser);
+            users.add(newUser);
         }
     }
 
@@ -74,8 +80,7 @@ public class IndexController implements Serializable {
                     current.setLastVisit(new Date());
                     userController.setCurrent(current);
                     userController.setEntered(true);
-                    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-                    session.setAttribute("current", this.current);
+                    setUserToSession(current);
                     return "index.xhtml?faces-redirect=true";
                 }
             }
@@ -94,9 +99,18 @@ public class IndexController implements Serializable {
         current.setLastVisit(new Date());
         userController.setCurrent(current);
         userController.setEntered(true);
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.setAttribute("current", current);
+        setUserToSession(current);
         return "index.xhtml?faces-redirect=true";
+    }
+
+    public void setUserToSession(User user) {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        session.setAttribute("current", user);
+    }
+
+    public User getUserToSession() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        return (User) session.getAttribute("current");
     }
 
     public User getCurrent() {

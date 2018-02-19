@@ -23,15 +23,23 @@
     <div class="main main-wrapper">
         <div class="main-content" id="main">
             <h3 class="test-results-head">Результати тестів</h3>
-            <h:outputLabel>
-                <span class="test-result">Рівень сформованості професійних компетенцій - #{webDesignTestsController.getCompValue('prof')}</span>
-            </h:outputLabel>
-            <h:outputLabel>
-                <span class="test-result">Рівень сформованості комунікативних компетенцій - #{webDesignTestsController.getCompValue('com')}</span>
-            </h:outputLabel>
-            <h:outputLabel>
-                <span class="test-result">Рівень сформованості особистісно-ділових компетенцій - #{webDesignTestsController.getCompValue('pers')}</span>
-            </h:outputLabel>
+            <c:if test="#{indexController.getUserToSession().passedTests == null || indexController.getUserToSession().passedTests.isEmpty()}">
+                <h:outputLabel>Ви ще не проходили тести.</h:outputLabel>
+            </c:if>
+            <c:if test="#{indexController.getUserToSession().passedTests != null and !indexController.getUserToSession().passedTests.isEmpty()}">
+                <h:outputLabel>
+                    <span class="test-result">Рівень сформованості професійних компетенцій - #{webDesignTestsController.getCompValue('prof')}</span>
+                </h:outputLabel>
+                <h:outputLabel>
+                    <span class="test-result">Рівень сформованості комунікативних компетенцій - #{webDesignTestsController.getCompValue('com')}</span>
+                </h:outputLabel>
+                <h:outputLabel>
+                    <span class="test-result">Рівень сформованості особистісно-ділових компетенцій - #{webDesignTestsController.getCompValue('pers')}</span>
+                </h:outputLabel>
+                <h:outputLabel>
+                    <span class="test-result">#{webDesignTestsController.getTotalResult()}</span>
+                </h:outputLabel>
+            </c:if>
         </div>
     </div>
     <comp:footer/>

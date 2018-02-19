@@ -14,13 +14,17 @@
 
 .feature {
     position: relative;
-    flex-basis: 85px;
+    flex-basis: 60px;
     width: 200px;
     margin-bottom: 7px;
 }
 
 .feature__item {
     font-size: 28px;
+}
+
+.feature__item-smaller {
+    font-size: 22px;
 }
 
 .test-form {

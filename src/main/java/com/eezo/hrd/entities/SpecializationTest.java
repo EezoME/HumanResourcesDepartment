@@ -1,5 +1,7 @@
 package com.eezo.hrd.entities;
 
+import java.util.Map;
+
 /**
  * Specialization test. Contains test units.
  */
@@ -12,6 +14,17 @@ public class SpecializationTest {
     public SpecializationTest(String specializationCode, String specialization) {
         this.specializationCode = specializationCode;
         this.specialization = specialization;
+    }
+
+    public double getTotalResult(Map<String, Integer> passedResults) {
+        double result = 0.0d;
+        int i = 0;
+        for (String testName : passedResults.keySet()) {
+            if (passedResults.get(testName) > 0) {
+                result += (double) passedResults.get(testName) / (double) testUnits[i].getTests().size() * unitsWeights[i++];
+            }
+        }
+        return result / (double) passedResults.size();
     }
 
     public String getSpecializationCode() {
