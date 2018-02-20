@@ -29,3 +29,18 @@ h3 {
     font-size: 22px;
     line-height: 1.6;
 }
+
+.cameras-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.camera-image {
+    height: 360px;
+}
+
+@media screen and (max-width: 900px) {
+    .camera-image {
+        height: 210px;
+    }
+}
