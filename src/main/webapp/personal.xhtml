@@ -22,15 +22,15 @@
     <div class="main main-wrapper">
         <div class="main-content">
             <h:form id="form">
-                <p:panel id="toggleable" header="Прес-секретар «Smart Maritime Group»" toggleable="true" closable="true" toggleSpeed="500"
+                <p:panel id="toggleable1" header="Прес-секретар «Smart Maritime Group»" toggleable="true"
+                         closable="true" toggleSpeed="500"
                          closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
                     <p:ajax event="toggle" update="msgs"/>
                     <h:panelGrid columns="1" cellpadding="10">
                         <h:outputText value="ФІО: Максимова Владислава Константинівна"/>
-                        <h:outputText value="Посада: Прес-секретар «Smart Maritime Group»"/>
                         <h:outputText value="Телефон: +38 (067) 218-89-31"/>
                         <h:outputText value="Факс: +38 (0512) 58-46-98"/>
-                        <h:outputText value="Дата рождения: 28.11.1980"/>
+                        <h:outputText value="Дата народження: 28.11.1980"/>
                     </h:panelGrid>
                     <f:facet name="options">
                         <p:menu>
@@ -42,29 +42,65 @@
                     </f:facet>
                 </p:panel>
 
+                <p:panel id="toggleable2" header="Генеральний директор «Smart Maritime Group»" toggleable="true"
+                         closable="true" toggleSpeed="500"
+                         closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+                    <p:ajax event="toggle" update="msgs"/>
                     <h:panelGrid columns="1" cellpadding="10">
                         <h:outputText value="ФІО: Федін Василь Сергійович"/>
-                        <h:outputText value="Посада: Генеральний директор «Smart Maritime Group»"/>
                         <h:outputText value="Телефон: +38 (067) 341-22-33"/>
                         <h:outputText value="Факс: +38 (0512) 58-46-92"/>
-                        <h:outputText value="Дата рождения: 30.04.1968"/>
+                        <h:outputText value="Дата народження: 30.04.1968"/>
                     </h:panelGrid>
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin"
+                                            onclick="PF('panel').toggle()"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
+                </p:panel>
 
+                <p:panel id="toggleable3" header="Директор з маркетингу" toggleable="true"
+                         closable="true" toggleSpeed="500"
+                         closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+                    <p:ajax event="toggle" update="msgs"/>
                     <h:panelGrid columns="1" cellpadding="10">
                         <h:outputText value="ФІО: Трубач Віктор Семенович"/>
-                        <h:outputText value="Посада: Директор з маркетингу"/>
                         <h:outputText value="Телефон: +38 (099) 511-54-98"/>
                         <h:outputText value="Факс: +38 (0512) 58-46-90"/>
-                        <h:outputText value="Дата рождения: 01.03.1975"/>
+                        <h:outputText value="Дата народження: 01.03.1975"/>
                     </h:panelGrid>
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin"
+                                            onclick="PF('panel').toggle()"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
+                </p:panel>
 
+                <p:panel id="toggleable4" header="Керівник департаменту портової діяльності" toggleable="true"
+                         closable="true" toggleSpeed="500"
+                         closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+                    <p:ajax event="toggle" update="msgs"/>
                     <h:panelGrid columns="1" cellpadding="10">
                         <h:outputText value="ФІО: Ігнатенко Сергій В'ячеславович"/>
-                        <h:outputText value="Посада: Керівник департаменту портової діяльності"/>
                         <h:outputText value="Телефон: +38 (095) 421-33-01"/>
                         <h:outputText value="Факс: +38 (0512) 58-46-97"/>
-                        <h:outputText value="Дата рождения: 21.07.1966"/>
+                        <h:outputText value="Дата народження: 21.07.1966"/>
                     </h:panelGrid>
+                    <f:facet name="options">
+                        <p:menu>
+                            <p:submenu label="Settings">
+                                <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin"
+                                            onclick="PF('panel').toggle()"/>
+                            </p:submenu>
+                        </p:menu>
+                    </f:facet>
+                </p:panel>
             </h:form>
         </div>
     </div>

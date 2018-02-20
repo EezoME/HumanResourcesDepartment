@@ -22,6 +22,8 @@ public class SpecializationTestsController implements Serializable {
     public void init() {
         this.specializationTests = new ArrayList<>();
         initializeWebTests();
+        initializeSysAdminTest();
+        initializeOperatorPCTest();
     }
 
     public List<SpecializationTest> getSpecializationTests() {
@@ -61,13 +63,45 @@ public class SpecializationTestsController implements Serializable {
     }
 
     private void initializeSysAdminTest() {
-        //
+        SpecializationTest webTest = new SpecializationTest("sys", "Сетевий адміністратор");
+
+        TestUnit[] testUnits = new TestUnit[3];
+        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНА КОМПЕТЕНЦІЯ");
+        testUnit1.setDesc("Знання стандартів роботи сетевого адміністратора та їх ефективне застосування на практиці");
+        testUnit1.setTests(initAndGetSys1Tests());
+        testUnit1.setTestLevels(initAndGetWeb1Levels());
+        testUnits[0] = testUnit1;
+
+        testUnits[1] = this.specializationTests.get(0).getTestUnits()[1];
+        testUnits[2] = this.specializationTests.get(0).getTestUnits()[2];
+        webTest.setTestUnits(testUnits);
+        webTest.setUnitsWeights(new double[]{0.7d, 0.1d, 0.2d});
+
+        this.specializationTests.add(webTest);
+    }
+
+    private void initializeOperatorPCTest() {
+        SpecializationTest webTest = new SpecializationTest("pc", "Оператор ПК");
+
+        TestUnit[] testUnits = new TestUnit[3];
+        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНА КОМПЕТЕНЦІЯ");
+        testUnit1.setDesc("Знання стандартів роботи оператора ПК та їх ефективне застосування на практиці");
+        testUnit1.setTests(initAndGetPC1Tests());
+        testUnit1.setTestLevels(initAndGetWeb1Levels());
+        testUnits[0] = testUnit1;
+
+        testUnits[1] = this.specializationTests.get(0).getTestUnits()[1];
+        testUnits[2] = this.specializationTests.get(0).getTestUnits()[2];
+        webTest.setTestUnits(testUnits);
+        webTest.setUnitsWeights(new double[]{0.7d, 0.1d, 0.2d});
+
+        this.specializationTests.add(webTest);
     }
 
     private List<Test> initAndGetWeb1Tests() {
         List<Test> tests = new ArrayList<>();
 
-        Test test = new Test("Що адресує наступне посилання?<br/><a href=\"../images/1.jpg\" />", TestType.CHECKBOX);
+        Test test = new Test("Що адресує наступне посилання? \n<a href=\"../images/1.jpg\" />", TestType.CHECKBOX);
         test.setDescription("Пояснення: Шлях виходу на рівень вгору, а потім переходити в папку images в батьківському каталозі.");
         test.addPossibleAnswer("val1", "Зображення, розташоване в каталозі \"images\", дочірнє по відношенню до поточного.");
         test.addPossibleAnswer("val2", "Зображення, розташоване в каталозі \"images\", батьківське по відношенню до поточного.");
@@ -486,5 +520,234 @@ public class SpecializationTestsController implements Serializable {
         web1UnitLevels.put(73, "2 - Рівень розвитку: Ряд компетенцій вже успішно розвинені і забезпечують певну долю комфорту на роботі");
         web1UnitLevels.put(Integer.MAX_VALUE, "3 - Рівень майстерності: Ведеться сильна робота в управлінні командою. Важливо не зупинятися на досягнутому та продовжувати нарощувати свої навички");
         return web1UnitLevels;
+    }
+
+    private List<Test> initAndGetSys1Tests() {
+        List<Test> tests = new ArrayList<>();
+
+        Test test = new Test("Як «прокинути» до локальної мережі білу адресу, якщо провайдер видав дві такі адреси, а на шлюзі встановлений Linux?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "proxyarp");
+        test.addPossibleAnswer("val2", "DNAT");
+        test.addPossibleAnswer("val3", "SNAT");
+        test.addPossibleAnswer("val4", "reverse proxy");
+        test.addPossibleAnswer("val5", "Жоден із запропонованих варіантів");
+        test.setAnswersWeights(new int[]{-1, 1, -1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Сисадмін Володимир Бубнов вирішив завантажити чотири сезони серіалу «Теорія великого вибуху» в озвучці Кураж-Бамбі з одного відомого торрент-трекера.\nСумарний розмір архіву всіх серій становить 48.86 Гбайт. Володимир задумався - чи встигне він до вечора завантажити весь архів через робочий канал 8 Мбіт / сек і забрати його додому, якщо виділить під це діло окрему смугу з шириною каналу 4 Мбіт / сек, щоб не злити інших співробітників компанії?\nПовторіть розрахунки Бубнова і вкажіть, скільки годин потрібно нашому адміну для того, щоб викачати серіал при зазначених вище умовах?\n", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "6 годин");
+        test.addPossibleAnswer("val2", "14 годин");
+        test.addPossibleAnswer("val3", "28 годин");
+        test.addPossibleAnswer("val4", "33 години");
+        test.setAnswersWeights(new int[]{-1, -1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Команда apt-cache search XXX в Ubuntu повертає список пакетів з описом.\nЯк встановити пакети з цього списку однією командою apt-get install без копіювання імені кожного пакета вручну?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "sudo apt-get install XXX");
+        test.addPossibleAnswer("val2", "apt-cache search XXX | sudo apt-get install");
+        test.addPossibleAnswer("val3", "apt-cache search XXX | cut --delimiter=\" \" --fields=1 | sudo xargs apt-get -y install");
+        test.addPossibleAnswer("val4", "apt-cache search XXX | cut -d=\" \" -f=1 | sudo xargs apt-get -y install");
+        test.addPossibleAnswer("val5", "Жоден із запропонованих варіантів");
+        test.setAnswersWeights(new int[]{-1, -1, -1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Студент Вася, намагаючись дізнатися пароль генерального директора, отримав доступ до / etc / passwd на сервері. Але його чекало лише розчарування, так як замість рядка з паролем він виявив рядок director: x: 1000: 1000: director: / home / director: / bin / bash.\nЩо означає х в цьому рядку?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Користувачеві director вхід в систему заборонений");
+        test.addPossibleAnswer("val2", "Пароль користувача director знаходиться в іншому місці");
+        test.addPossibleAnswer("val3", "Користувач director може входити в систему з порожнім паролем");
+        test.addPossibleAnswer("val4", "Користувач director має пароль xЖоден із запропонованих варіантів");
+        test.setAnswersWeights(new int[]{-1, 1, -1, -1});
+        tests.add(test);
+
+        test = new Test("В якому з конфігураційних файлів зустрічається номер автономної системи?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "/etc/ssh/sshd_config");
+        test.addPossibleAnswer("val2", "/etc/sysctl.conf");
+        test.addPossibleAnswer("val3", "/etc/bind/named.co");
+        test.addPossibleAnswer("val4", "/etc/bird.conf");
+        test.setAnswersWeights(new int[]{-1, -1, -1, 1});
+        tests.add(test);
+
+        test = new Test("Програміст Макс Ерланген все життя вірив в те, що 1 Кілобайт = 1024 Байта. Зовсім недавно він з подивом дізнався, що це не так.\nПідкажіть Максу, яку приставку правильно використовувати для величини, яка означає множення на 2 ^ 10 (два в десятому ступені), тобто в 1024 рази?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "КБ");
+        test.addPossibleAnswer("val2", "Кібі");
+        test.addPossibleAnswer("val3", "Дека");
+        test.addPossibleAnswer("val4", "Кб");
+        test.setAnswersWeights(new int[]{-1, 1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Припустимо, що перед вами стоїть завдання, маючи тільки адреса IPv6, підключитися по SSH до вузла, що має адресу IPv4. Ваші дії?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Використовувати проксі sixxs.com");
+        test.addPossibleAnswer("val2", "Приписати в початок IPv4 :: ffff:");
+        test.addPossibleAnswer("val3", "Встановити тунель Teredo");
+        test.addPossibleAnswer("val4", "Жоден із запропонованих варіантів");
+        test.setAnswersWeights(new int[]{-1, 1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Як в конвеєрі Unix продублювати висновок на екран (або в будь-який інший стандартний вихід) і в наступну команду (a і b - це команди)?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "exec 4>&1;a | tee /dev/stderr 2>&4 | b");
+        test.addPossibleAnswer("val2", "a | tee /dev/tt");
+        test.addPossibleAnswer("val3", "a | tee /dev/stdout | b");
+        test.addPossibleAnswer("val4", "<a | tee /dev/stderr 2>&4 | b 4>&1;");
+        test.addPossibleAnswer("val4", "Жоден із запропонованих варіантів");
+        test.setAnswersWeights(new int[]{1, -1, -1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Є точка доступу, яка при розміщенні на офісній кухні дає дальність зв'язку 20 м. Потужність точки доступу 65 мВт. Точка налаштована на 8 канал. Коли мікрохвильовка моделі LG MB-4027, що знаходиться на кухні, включена, з неї \"витікають\" радіохвилі потужністю 1 Вт.\nНаскільки зменшиться при цьому максимальна дальність дії бездротового зв'язку?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Дальність зв'язку зменшиться в 10 разів");
+        test.addPossibleAnswer("val2", "Дальність зв'язку зменшиться в 3 рази");
+        test.addPossibleAnswer("val3", "Зв'язок повністю пропаде");
+        test.addPossibleAnswer("val4", "Не зміниться");
+        test.setAnswersWeights(new int[]{-1, -1, -1, 1});
+        tests.add(test);
+
+        test = new Test("Адмін Вася в суботу вдень налаштовував сервер, розташований в Німеччині, з домашнього комп'ютера по SSH. Доступ в інтернет у нього вдома організований через стандартний Linux-роутер з NAT.\nРаптом Васина улюблена бабуся випадково зачепила роутер шваброю, і той перезавантажився. Після того, як роутер знову почав працювати, виявилося, що SSH-сесія, відкрита через NAT, як і раніше функціонує.\nЧому SSH-сесія не розірвалася?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Linux кеширує conntrack на диску");
+        test.addPossibleAnswer("val2", "Особливість реалізації conntrack в Linux");
+        test.addPossibleAnswer("val3", "А в чому проблема? RST або FIN не приходили. Чому має розірватися?");
+        test.addPossibleAnswer("val4", "Жоден із запропонованих варіантів");
+        test.setAnswersWeights(new int[]{1, -1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Файлова система btrfs (останні версії, починаючи з січня 2012) не може ...", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Зберігати файли розміром більше 16 Тб");
+        test.addPossibleAnswer("val2", "Використовуватися спільно з ISCSI");
+        test.addPossibleAnswer("val3", "Зберігати файли підкачки");
+        test.addPossibleAnswer("val4", "Використовуватися в віртуальних машинах");
+        test.setAnswersWeights(new int[]{-1, -1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Які технології дозволяють SkyDNS блокувати активність ботнетів в локальній мережі на рівні протоколу DNS?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Заборона на використання локальних адрес для доменів (наприклад, 192.168. *. * Або 10.0. *. *), Що дозволяє запобігати атакам класу DNS Rebinding");
+        test.addPossibleAnswer("val2", "Блокування IP-адрес заражених машин в локальній мережі для запобігання відправки особистих даних користувача на хости зловмисників");
+        test.addPossibleAnswer("val3", "Аналіз всього трафіку локальної мережі та пошук підозрілих сигнатур з вірусних баз даних, а також використання спеціальних евристик для виявлення і блокування шкідливого коду.");
+        test.setAnswersWeights(new int[]{1, -1, -1});
+        tests.add(test);
+
+        return tests;
+    }
+
+    private List<Test> initAndGetPC1Tests() {
+        List<Test> tests = new ArrayList<>();
+
+        Test test = new Test("Що таке файл?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Файл-це базова складова програмного забезпечення.");
+        test.addPossibleAnswer("val2", "Файл - це певна кількість інформації (програма або дані), що мають ім'я і зберігаються в довгостроковій пам'яті");
+        test.addPossibleAnswer("val3", "Файл - спеціальна програма, яка забезпечує управління і обмін інформацією між пристроями");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Що таке файлова система?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Це безпечна система зберігання інформації");
+        test.addPossibleAnswer("val2", "Це однорангова система зберігання інформації");
+        test.addPossibleAnswer("val3", "Це система зберігання файлів і організації каталогів");
+        test.setAnswersWeights(new int[]{-1, -1, 1});
+        tests.add(test);
+
+        test = new Test("Що відноситься до атрибутів файлу?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Його ім'я, тип (розширення), значок, розмір, дата і час створення.");
+        test.addPossibleAnswer("val2", "Його тип і місце розташування на диску");
+        test.addPossibleAnswer("val3", "Його значок і місце розташування на диску");
+        test.setAnswersWeights(new int[]{1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Задано повне ім'я файлу C:\\DOC\\МОЇ ДОКУМЕНТИ\\7КЛАСС\\ПЕТРОВ\\PROBA.TXT. Яке ім'я каталогу, в якому знаходиться цей файл?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "7 КЛАС");
+        test.addPossibleAnswer("val2", "ПЕТРОВ");
+        test.addPossibleAnswer("val3", "ПЕТРОВ\\PROBA");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Продуктивність процесора залежить від", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "його типу і швидкості роботи");
+        test.addPossibleAnswer("val2", "його розрядності і тактової частоти");
+        test.addPossibleAnswer("val3", "його роз'ємів");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Шляхи підвищення продуктивності процесора полягають в", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "У вдосконаленні архітектури, введення кеш-пам'яті, використанні декількох ядер");
+        test.addPossibleAnswer("val2", "в зміні функціональної схеми");
+        test.addPossibleAnswer("val3", "в збільшенні числа роз'ємів процесора");
+        test.setAnswersWeights(new int[]{1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Інформація представлена в двійковому комп'ютерному коді (представляє собою послідовність 0 і 1) називається", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "програма");
+        test.addPossibleAnswer("val2", "файл");
+        test.addPossibleAnswer("val3", "дані");
+        test.setAnswersWeights(new int[]{-1, -1, 1});
+        tests.add(test);
+
+        test = new Test("Для того щоб комп'ютер зміг виконати обробку даних за програмою, програма і дані повинні бути завантажені", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "на жорсткий диск");
+        test.addPossibleAnswer("val2", "в оперативну пам'ять");
+        test.addPossibleAnswer("val3", "в магістраль");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Які пристрої відносяться до пристроїв введення інформації?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "принтер, сканер, клавіатура");
+        test.addPossibleAnswer("val2", "графічний планшет, клавіатура, мікрофон, сканер");
+        test.addPossibleAnswer("val3", "монітор, сканер, клавіатура");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Для оптичного введення в комп'ютер і перетворення в комп'ютерну форму зображень, а також текстових документів використовується", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "графічний планшет");
+        test.addPossibleAnswer("val2", "сканер");
+        test.addPossibleAnswer("val3", "принтер");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Якість зображення монітора визначається", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "способом підключення");
+        test.addPossibleAnswer("val2", "роздільною здатністю");
+        test.addPossibleAnswer("val3", "типом відеокарти");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Які принтери забезпечують топографічної якості друку, високу швидкість друку при менших витратах на витратні матеріали?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "струменеві");
+        test.addPossibleAnswer("val2", "лазерні");
+        test.addPossibleAnswer("val3", "матричні");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Що зберігається в осередках оперативної пам'яті?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "мікрочіпи");
+        test.addPossibleAnswer("val2", "модулі пам'яті");
+        test.addPossibleAnswer("val3", "двійковий код довжиною 8 знаків");
+        test.setAnswersWeights(new int[]{-1, -1, 1});
+        tests.add(test);
+
+        test = new Test("Інформація на оптичному диску зберігається", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "на одній спіралевидній доріжці, що йде від центру до периферії");
+        test.addPossibleAnswer("val2", "на певних доріжках");
+        test.addPossibleAnswer("val3", "в певних секторах");
+        test.setAnswersWeights(new int[]{1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Які мережі називають одноранговими?", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "Мережі з'єднані одним кабелем називаються одноранговими");
+        test.addPossibleAnswer("val2", "Мережі в яких всі комп'ютери рівноправні");
+        test.addPossibleAnswer("val3", "Мережі з'єднані через сервер");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        test = new Test("Мережа на основі сервера має топологію", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "зірка");
+        test.addPossibleAnswer("val2", "кільце");
+        test.addPossibleAnswer("val3", "загальна шина");
+        test.setAnswersWeights(new int[]{1, -1, -1});
+        tests.add(test);
+
+        test = new Test("Кожен комп'ютер або принтер підключений до локальної мережі повинен мати ...", TestType.CHECKBOX);
+        test.addPossibleAnswer("val1", "маршрутизатор");
+        test.addPossibleAnswer("val2", "мережевий адаптер");
+        test.addPossibleAnswer("val3", "комунікатор");
+        test.setAnswersWeights(new int[]{-1, 1, -1});
+        tests.add(test);
+
+        return tests;
     }
 }

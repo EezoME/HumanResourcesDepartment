@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Named
 @SessionScoped
@@ -91,7 +92,7 @@ public class IndexController implements Serializable {
 
     public String loginAsGuest() {
         User guest = new User();
-        guest.setLogin("guest" + guest.getId());
+        guest.setLogin("guest" + new Random().nextInt(3000));
         guest.setPassword("guest");
         guest.setUserRole(UserRole.GUEST);
         userFacade.create(guest);

@@ -45,13 +45,7 @@ public class TestController implements Serializable {
             userFacade.edit(user);
         }
 
-        String test = params.get("test-submit-form:specialization");
-        if (test.equals("web")) {
-            return "web-design-tests.xhtml?faces-redirect=true";
-        } else if (test.equals("sys")) {
-            return "sys-admin-tests?faces-redirect=true";
-        }
-        return "";
+        return "web-design-tests.xhtml?faces-redirect=true";
     }
 
     public IndexController getIndexController() {

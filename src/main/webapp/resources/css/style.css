@@ -77,3 +77,7 @@ label > input, label > select {
 .file-download {
     margin-bottom: 10px;
 }
+
+.lit-title {
+    font-size: 28px;
+}

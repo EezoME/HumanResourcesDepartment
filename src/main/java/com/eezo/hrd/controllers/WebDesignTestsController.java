@@ -110,7 +110,7 @@ public class WebDesignTestsController implements Serializable {
         String resultAsString = "Виявлений загальний рівень компетенції - " + round(result, 2) + ".\n";
         if (result < 0.7d) {
             if (user.getUserRole().equals(UserRole.GUEST)) {
-                return resultAsString + "Ваш професійний рівень не відповідає посаді, яку ви хочете займати. Ми радиом вам підвищити свій професіональний вибір.";
+                return resultAsString + "Ваш професійний рівень не відповідає посаді, яку ви хочете займати. Ми радимо вам підвищити свій професіональний рівень.";
             } else {
                 return resultAsString + "Вам потрібно підвищити свій професійний рівень для відповідності посаді, яку ви займаєте.";
             }

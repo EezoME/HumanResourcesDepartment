@@ -27,16 +27,19 @@
                         <h:outputText value="Персонал"/>
                     </h:commandLink>
                 </div>
-                <div class="feature button-wrapper">
-                    <h:commandLink action="/literature.xhtml" styleClass="feature__item all-center">
-                        <h:outputText value="Література"/>
-                    </h:commandLink>
-                </div>
-                <div class="feature button-wrapper">
-                    <h:commandLink action="/cameras.xhtml" styleClass="feature__item all-center">
-                        <h:outputText value="Камери"/>
-                    </h:commandLink>
-                </div>
+                <c:if test="#{!indexController.current.userRole.toString().equals('GUEST')}">
+                    <div class="feature button-wrapper">
+                        <h:commandLink action="/literature.xhtml" styleClass="feature__item all-center">
+                            <h:outputText value="Література"/>
+                        </h:commandLink>
+                    </div>
+                    <div class="feature button-wrapper">
+                        <h:commandLink action="/cameras.xhtml" styleClass="feature__item all-center">
+                            <h:outputText value="Камери"/>
+                        </h:commandLink>
+                    </div>
+                </c:if>
+                <br/><br/><br/>
                 <div class="feature button-wrapper">
                     <h:commandLink action="/tests.xhtml" styleClass="feature__item-smaller all-center">
                         <h:outputText value="Пройти тест"/>
@@ -44,11 +47,12 @@
                 </div>
                 <c:if test="#{!indexController.current.userRole.toString().equals('GUEST')}">
                     <!--<h:form styleClass="features-wrapper test-form">-->
-                        <div class="feature button-wrapper">
-                            <h:commandLink action="/test-results.xhtml?faces-redirect=true" styleClass="feature__item-smaller all-center">
-                                <h:outputText value="Подивитися результати тестів"/>
-                            </h:commandLink>
-                        </div>
+                    <div class="feature button-wrapper">
+                        <h:commandLink action="/test-results.xhtml?faces-redirect=true"
+                                       styleClass="feature__item-smaller all-center">
+                            <h:outputText value="Подивитися результати тестів"/>
+                        </h:commandLink>
+                    </div>
                     <!--</h:form>-->
                 </c:if>
                 <div class="feature button-wrapper">
