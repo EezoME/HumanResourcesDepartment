@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:comp="http://java.sun.com/jsf/composite/comp">
+<h:head>
+    <title>Головна - #{indexController.titleSuffix}</title>
+    <c:if test="#{!userController.entered}">
+        <meta http-equiv="refresh" content="0; url=login.xhtml"/>
+    </c:if>
+    <!--<script src="https://use.fontawesome.com/51d1b53670.js" type="application/javascript"/>-->
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="header.css"/>
+    <h:outputStylesheet library="css" name="footer.css"/>
+    <h:outputStylesheet library="css" name="index-page.css"/>
+</h:head>
+<h:body>
+    <comp:head/>
+    <p:growl autoUpdate="true" id="msgs"/>
+    <div class="main main-wrapper">
+        <div class="main-content">
+            <h:form>
+                <p:commandButton value="Витяг ПДВ.pdf" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file1}"/>
+                </p:commandButton><br/>
+
+                <p:commandButton value="Выписка 27.10.14г. новый ГД - Федин.pdf" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file2}"/>
+                </p:commandButton><br/>
+
+                <p:commandButton value="Выписка ЕДР_21.07.2014.pdf" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file3}"/>
+                </p:commandButton><br/>
+
+                <p:commandButton value="Договор аренды с НСК Агро.doc" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file4}"/>
+                </p:commandButton><br/>
+
+                <p:commandButton value="ДОГОВОР АРЕНДЫ черноморец.doc" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file5}"/>
+                </p:commandButton><br/>
+
+                <p:commandButton value="ПРИКАЗ О создании хозрасчетного.doc" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file6}"/>
+                </p:commandButton><br/>
+
+                <p:commandButton value="Протокол ОСУ СМГ - обрання_Федина.pdf" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file7}"/>
+                </p:commandButton><br/>
+
+                <p:commandButton value="Статут 10.07.2014.pdf" ajax="false" styleClass="file-download"
+                                 onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{literatureController.file8}"/>
+                </p:commandButton>
+            </h:form>
+            <script type="text/javascript">
+                function start() {
+                    PF('statusDialog').show();
+                }
+
+                function stop() {
+                    PF('statusDialog').hide();
+                }
+            </script>
+        </div>
+    </div>
+    <comp:footer/>
+</h:body>
+</html>

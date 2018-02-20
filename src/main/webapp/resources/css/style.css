@@ -73,3 +73,7 @@ label > input, label > select {
     margin-bottom: 10px;
     background-color: black;
 }
+
+.file-download {
+    margin-bottom: 10px;
+}
