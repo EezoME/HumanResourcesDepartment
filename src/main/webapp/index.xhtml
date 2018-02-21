@@ -42,7 +42,7 @@
                 <br/><br/><br/>
                 <div class="feature button-wrapper">
                     <h:commandLink action="/tests.xhtml" styleClass="feature__item-smaller all-center">
-                        <h:outputText value="Пройти тест"/>
+                        <h:outputText value="Оцінити рівень компетентності"/>
                     </h:commandLink>
                 </div>
                 <c:if test="#{!indexController.current.userRole.toString().equals('GUEST')}">
@@ -50,7 +50,7 @@
                     <div class="feature button-wrapper">
                         <h:commandLink action="/test-results.xhtml?faces-redirect=true"
                                        styleClass="feature__item-smaller all-center">
-                            <h:outputText value="Подивитися результати тестів"/>
+                            <h:outputText value="Результати оцінювання компетентності"/>
                         </h:commandLink>
                     </div>
                     <!--</h:form>-->
@@ -61,10 +61,6 @@
                     </h:commandLink>
                 </div>
             </h:form>
-            <!--<h:form styleClass="features-wrapper test-form">-->
-            <!--</h:form>-->
-            <!--<h:form styleClass="features-wrapper test-form">-->
-            <!--</h:form>-->
         </div>
     </div>
     <comp:footer/>

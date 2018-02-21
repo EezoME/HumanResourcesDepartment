@@ -107,7 +107,7 @@ public class WebDesignTestsController implements Serializable {
             }
             result = specializationTest.getTotalResult(user.getPassedTests());
         }
-        String resultAsString = "Виявлений загальний рівень компетенції - " + round(result, 2) + ".\n";
+        String resultAsString = "Виявлений загальний рівень компетентності - " + round(result, 2) + ".\n";
         if (result < 0.7d) {
             if (user.getUserRole().equals(UserRole.GUEST)) {
                 return resultAsString + "Ваш професійний рівень не відповідає посаді, яку ви хочете займати. Ми радимо вам підвищити свій професіональний рівень.";

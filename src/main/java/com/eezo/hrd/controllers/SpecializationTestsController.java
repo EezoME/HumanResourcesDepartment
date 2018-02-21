@@ -38,20 +38,20 @@ public class SpecializationTestsController implements Serializable {
         SpecializationTest webTest = new SpecializationTest("web", "Web-дизайнер");
 
         TestUnit[] testUnits = new TestUnit[3];
-        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНА КОМПЕТЕНЦІЯ");
+        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНІ КОМПЕТЕНЦІЇ");
         testUnit1.setDesc("Знання стандартів роботи веб-дизайнера та їх ефективне застосування на практиці");
         testUnit1.setTests(initAndGetWeb1Tests());
         testUnit1.setTestLevels(initAndGetWeb1Levels());
         testUnits[0] = testUnit1;
 
         TestUnit testUnit2 = new TestUnit("com", "КОМУНІКАТИВНІ КОМПЕТЕНЦІЇ");
-        testUnit2.setDesc("комунікабельність");
+        testUnit2.setDesc("Здатність до формування комунікаційної стратегії у процесі виконання посадових обов’язків");
         testUnit2.setTests(initAndGetWeb2Tests());
         testUnit2.setTestLevels(initAndGetWeb2Levels());
         testUnits[1] = testUnit2;
 
         TestUnit testUnit3 = new TestUnit("pers", "ОСОБИСТІСНО-ДІЛОВІ КОМПЕТЕНЦІЇ");
-        testUnit3.setDesc("аналітичне мисленн");
+        testUnit3.setDesc("Можливість аналізувати проблеми та виділити складові їх елементи, що роблять систематизовані і логічні висновки, основані на правильно вибраній інформаціі.");
         testUnit3.setTests(initAndGetWeb3Tests());
         testUnit3.setTestLevels(initAndGetWeb3Levels());
         testUnits[2] = testUnit3;
@@ -66,8 +66,8 @@ public class SpecializationTestsController implements Serializable {
         SpecializationTest webTest = new SpecializationTest("sys", "Сетевий адміністратор");
 
         TestUnit[] testUnits = new TestUnit[3];
-        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНА КОМПЕТЕНЦІЯ");
-        testUnit1.setDesc("Знання стандартів роботи сетевого адміністратора та їх ефективне застосування на практиці");
+        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНІ КОМПЕТЕНЦІЇ");
+        testUnit1.setDesc("Знання стандартів роботи системного адміністратора та їх ефективне застосування на практиці");
         testUnit1.setTests(initAndGetSys1Tests());
         testUnit1.setTestLevels(initAndGetWeb1Levels());
         testUnits[0] = testUnit1;
@@ -84,7 +84,7 @@ public class SpecializationTestsController implements Serializable {
         SpecializationTest webTest = new SpecializationTest("pc", "Оператор ПК");
 
         TestUnit[] testUnits = new TestUnit[3];
-        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНА КОМПЕТЕНЦІЯ");
+        TestUnit testUnit1 = new TestUnit("prof", "ПРОФЕСІЙНІ КОМПЕТЕНЦІЇ");
         testUnit1.setDesc("Знання стандартів роботи оператора ПК та їх ефективне застосування на практиці");
         testUnit1.setTests(initAndGetPC1Tests());
         testUnit1.setTestLevels(initAndGetWeb1Levels());
